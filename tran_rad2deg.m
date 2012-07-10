@@ -1,12 +1,14 @@
-function [out] = tran_rad2deg(in)
-%TRAN_RAD2DEG  Transform the given radian angle into degree angle
+function [degree] = tran_rad2deg(radian)
+%TRAN_RAD2DEG  Transform the given radian angle into degree angle.
 %
-%   OUT = TRAN_RAD2DEG(IN)
-%      (matrix) IN  : The given angle [rad]
-%      (matrix) OUT : The transformed angle [deg]
+%   DEGREE = TRAN_RAD2DEG(RADIAN)
+%       (matrix) RADIAN: The given angle [rad]
+%       (matrix) DEGREE: The transformed angle [deg]
 %
 %   Examples:
 %       t = tran_rad2deg(pi / 6)
 %       t = tran_rad2deg(pi / 3)
+%
+%   See also tran_deg2rad.
 
-out = in * 180 / pi;
+degree = radian * 180 / pi;
