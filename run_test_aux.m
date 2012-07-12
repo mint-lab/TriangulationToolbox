@@ -1,9 +1,9 @@
 close all;
 clear all;
 
-disp('== Unit Test for Triangulation Toolbox ==');
+disp('== Test of Auxiliary Functions for Triangulation Toolbox ==');
 
-% landmark maps
+% The given landmark map and true pose
 map =                                          ...
 [                                              ...
     % x,  y,  z, r_x, r_y, r_z                 ...

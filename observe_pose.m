@@ -57,7 +57,7 @@ obsData = zeros(obsNum,obsDim);
 if obsNum > 0
     delta = obsMap(:,1:3) - repmat(pose(1:3), obsNum, 1);
     obsData(:,1:3) = delta * tran_rad2rot(pose(4:6)); % Calculate displacement
-                                                      % r = R' * a --> r' = a' * R
+                                                      % a = R' * b --> a' = b' * R
     for i = 1:obsNum
         R = tran_rad2rot(pose(4:6))' * tran_rad2rot(obsMap(i,4:6)); % Calculate orientation one by one
         obsData(i,4:6) = tran_rot2rad(R);
