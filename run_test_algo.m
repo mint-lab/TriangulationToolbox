@@ -27,3 +27,17 @@ disp('==== localize2d_se05 ====');
 [pose, valid] = localize2d_se05(obsData, obsMap);
 test_is_true(valid == [1, 1, 0, 0, 0, 1]);
 test_is_near(pose(valid == true), truePose(valid == true));
+
+% localize2d_shimshoni02_algebraic
+disp('==== localize2d_shimshoni02_algebraic ====');
+[obsData, obsMap] = observe_bearing(trueMap, truePose);
+[pose, valid] = localize2d_shimshoni02_algebraic(obsData, obsMap);
+test_is_true(valid == [1, 1, 0, 0, 0, 1]);
+test_is_near(pose(valid == true), truePose(valid == true));
+
+% localize2d_shimshoni02_improved
+disp('==== localize2d_shimshoni02_improved ====');
+[obsData, obsMap] = observe_bearing(trueMap, truePose);
+[pose, valid] = localize2d_shimshoni02_improved(obsData, obsMap);
+test_is_true(valid == [1, 1, 0, 0, 0, 1]);
+test_is_near(pose(valid == true), truePose(valid == true));

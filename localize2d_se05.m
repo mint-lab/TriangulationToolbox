@@ -16,7 +16,8 @@ C = map(2:end,1) - map(1,1);
 D = map(2:end,2) - map(1,2);
 theta = pinv([A, B; B, -A]) * [C; D]; % Solve 'theta' in least squares
 align = map(1,1:2)' - [data(1,1), data(1,2); data(1,2), -data(1,1)] * theta;
+
 pose = [align(1), align(2), 0, 0, 0, -atan2(theta(2), theta(1))];
     % Why '-atan2(...)' for orientation?
     % In this toolbox, CCW is positive rotation, but the paper[1] uses it as negative.
-valid = [1, 1, 0, 0, 0, 1];
+valid = [true, true, false, false, false, true];
