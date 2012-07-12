@@ -15,6 +15,8 @@ function [R] = tran_rad2rot(radian)
 %
 %   Examples:
 %       R = tran_rad2rot([pi/3, pi/4, pi/6])
+%
+%   See also tran_rot2rad.
 
 Rz = @(x)([cos(x), -sin(x), 0; sin(x), cos(x), 0; 0, 0, 1]);
 Ry = @(x)([cos(x), 0, sin(x); 0, 1, 0; -sin(x), 0, cos(x)]);

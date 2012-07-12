@@ -10,6 +10,8 @@ function [result] = test_is_true(value, verbose)
 %       t = test_is_true(82 < 84, false)
 %       t = test_is_true([10, 18] == [10, 18])
 %       t = test_is_true(isequal([1, 2; 3, 4], [5, 6]))
+%
+%   See alo test_is_near.
 
 if nargin < 2
     verbose = true;

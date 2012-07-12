@@ -26,12 +26,14 @@ function [obsData, obsMap] = observe_displacement(map, pose, visibleRate, noiseS
 %       is relative position of i-th landmark in OBS_MAP with respect to the given pose, POSE.
 %
 %   Examples:
-%       map  = [ 0, 0, 0, 0, 0, 0; ...
+%       map  = [ 0, 0, 5, 0, 0, 0; ...
+%                5, 0, 5, 0, 0, 0; ...
 %                5, 5, 5, 0, 0, 0 ];
+%                0, 5, 5, 0, 0, 0 ];
 %       pose = [ 3, 2, 9, 0, 0, pi / 2 ];
 %       [obsData, obsMap] = observe_displacement(map, pose)
 %
-%   See also observe_distance.
+%   See also observe_distance, observe_bearing, observe_pose.
 
 if nargin < 3
     visibleRate = 1;
@@ -43,10 +45,12 @@ end
 isVisible = rand(size(map,1), 1) < visibleRate; % Select visible landmarks
 obsMap = map(isVisible,:);
 obsNum = size(obsMap,1);
+obsDim = 3;
 
-obsData = zeros(obsNum,1);
+obsData = zeros(obsNum,obsDim);
 if obsNum > 0
     delta = obsMap(:,1:3) - repmat(pose(1:3), obsNum, 1);
-    obsData = delta * tran_rad2rot(pose(4:6)); % Calculate displacement, R' * v == v' * R
-    obsData = obsData + noiseStd * randn(obsNum,3); % Add Gaussian noise
+    obsData = delta * tran_rad2rot(pose(4:6)); % Calculate displacement
+                                               % r = R' * a --> r' = a' * R
+    obsData = obsData + noiseStd * randn(obsNum,obsDim); % Add Gaussian noise
 end
