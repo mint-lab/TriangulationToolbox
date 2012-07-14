@@ -25,7 +25,7 @@ if det(R) < 0
     R = -R;
 end
 if R(1,1) == 0 || R(3,3) == 0
-    error('TT: tran_rot2rad: An element at (1,1) or (3,3) is zero!');
+    error('An element at (1,1) or (3,3) is zero!');
 end
 
 radian = [ atan2( R(3,2), R(3,3)), ...

@@ -4,10 +4,10 @@ function [pose, valid] = localize2d_shimshoni02_improved(data, map)
 %           URL: http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=1159015
 
 if size(data,1) < 3
-    error('TT: localize2d_sayed05: DATA has less number of observation!');
+    error('DATA has less number of observations!');
 end
 if size(data,2) ~= 2
-    error('TT: localize2d_sayed05: DATA has wrong size!');
+    error('DATA has wrong size!');
 end
 
 % Calculate pose using algebraic method (Section III)
