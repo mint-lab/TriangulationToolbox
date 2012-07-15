@@ -1,11 +1,10 @@
-function [obsData, obsMap] = observe_bearing(map, pose, visibleRate, noiseStd)
+function [obsData, obsMap] = observe_bearing(map, pose, visibleRate)
 %OBSERVE_BEARING  Measure bearing angle from the given pose to landmarks.
 %
 %   [OBS_DATA, OBS_MAP] = OBSERVE_BEARING(MAP, POSE, VISIBLE_RATE, NOISE_STD)
 %       (matrix) MAP         : A landmark map (Nx6 matrix)
 %       (matrix) POSE        : Pose of the target object (1x6 matrix)
 %       (scalar) VISIBLE_RATE: Visible probability of landmarks (default: 1)
-%       (scalar) NOISE_STD   : Standard deviation of measurement (default: 0)
 %       (matrix) OBS_DATA    : The measured displacement from POSE to landmarks (Mx2 matrix)
 %       (matrix) OBS_MAP     : The landmark map of measured landmarks (Mx6 matrix)
 %
@@ -43,9 +42,6 @@ function [obsData, obsMap] = observe_bearing(map, pose, visibleRate, noiseStd)
 if nargin < 3
     visibleRate = 1;
 end
-if nargin < 4
-    noiseStd = 0;
-end
 
 isVisible = rand(size(map,1), 1) < visibleRate; % Select visible landmarks
 obsMap = map(isVisible,:);
@@ -55,9 +51,8 @@ obsDim = 2;
 obsData = zeros(obsNum,obsDim);
 if obsNum > 0
     delta = obsMap(:,1:3) - repmat(pose(1:3), obsNum, 1);
-    delta = delta * tran_rad2rot(pose(4:6));             % a = R' * b --> a' = b' * R
+    delta = delta * tran_rad2rot(pose(4:6));      % a = R' * b --> a' = b' * R
     r = sqrt(delta(:,1).^2 + delta(:,2).^2 + delta(:,3).^2);
-    obsData(:,1) = atan2(delta(:,2), delta(:,1));        % Calculate azimuthal angle
-    obsData(:,2) = acos(delta(:,3) ./ r);                % Calculate polar angle
-    obsData = obsData + noiseStd * randn(obsNum,obsDim); % Add Gaussian noise
+    obsData(:,1) = atan2(delta(:,2), delta(:,1)); % Calculate azimuthal angle
+    obsData(:,2) = acos(delta(:,3) ./ r);         % Calculate polar angle
 end

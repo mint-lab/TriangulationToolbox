@@ -1,7 +1,7 @@
 close all;
 clear all;
 
-disp('== Test of Auxiliary Functions for Triangulation Toolbox ==');
+disp('== Unit-test of Auxiliary Functions for Triangulation Toolbox ==');
 
 % The given landmark map and true pose
 map =                                          ...
@@ -82,18 +82,7 @@ test_is_near(obsData(3), norm([5, 0, 0]));
 test_is_near(obsData(4), norm([5, 0, 0]));
 
 test_is_true(isempty(observe_distance([], [0, 0, 0, 0, 0, 0])));                    % In case of no landmark
-test_is_true(isempty(observe_distance([1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0))); % In case of zero visibility
-
-data = observe_distance(repmat([10, 0, 0, 0, 0, 0], 10000, 1), [0, 0, 0, 0, 0, 0], 0.5, 1);
-test_is_near(size(data,1), 10000 * 0.5, 100);
-figure();
-hold on;
-    hist(data, 50);
-    title('observe\_distance: Error Distribution');
-    xlabel('Distance Observation');
-    ylabel('Frequency');
-    box on;
-hold off;
+test_is_true(isempty(observe_distance([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0))); % In case of zero visibility
 
 % observe_displacement
 disp('==== observe_displacement ====');
@@ -118,3 +107,23 @@ test_is_near(obsData(1,:), [-5, +5, -5,  0,  0, -pi / 2]);
 test_is_near(obsData(2,:), [-5,  0,  0,  0,  0,  0     ]);
 test_is_near(obsData(3,:), [ 0,  0, -5,  0,  0, +pi / 2]);
 test_is_near(obsData(4,:), [ 0,  5,  0,  0,  0, -pi    ]);
+
+% apply_noise_gauss
+disp('==== apply_noise_gauss ====');
+in = zeros(2000,2);
+out1 = apply_noise_gauss(in, 3);
+out2 = apply_noise_gauss(in, [1, 2]);
+out3 = apply_noise_gauss(in, [2, 1; 1, 2]);
+figure();
+hold on;
+    plot(out1(:,1), out1(:,2), 'r.');
+    plot(out2(:,1), out2(:,2), 'b.');
+    plot(out3(:,1), out3(:,2), 'g.');
+    title('apply\_noise\_gauss: Noise Distribution');
+    xlabel('Data X');
+    ylabel('Data Y');
+    legend({'\sigma = [3, 0; 0, 3]', '\sigma = [1, 0; 0, 2]', '\sigma = [2, 1; 1, 2]'});
+    axis equal;
+    grid on;
+    box on;
+hold off;

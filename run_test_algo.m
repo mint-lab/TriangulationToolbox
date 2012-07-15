@@ -1,7 +1,7 @@
 close all;
 clear all;
 
-disp('== Test of Algorithms for Triangulation Toolbox ==');
+disp('== Unit-test of Algorithms for Triangulation Toolbox ==');
 
 % The given landmark map and true pose for 2D localization %%%%%%%%%%%%%%%%%%%%
 trueMap =                                      ...

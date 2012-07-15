@@ -1,11 +1,10 @@
-function [obsData, obsMap] = observe_pose(map, pose, visibleRate, noiseStd)
+function [obsData, obsMap] = observe_pose(map, pose, visibleRate)
 %OBSERVE_POSE  Measure relative pose from the given pose to landmarks.
 %
 %   [OBS_DATA, OBS_MAP] = OBSERVE_POSE(MAP, POSE, VISIBLE_RATE, NOISE_STD)
 %       (matrix) MAP         : A landmark map (Nx6 matrix)
 %       (matrix) POSE        : Pose of the target object (1x6 matrix)
 %       (scalar) VISIBLE_RATE: Visible probability of landmarks (default: 1)
-%       (matrix) NOISE_STD   : Standard deviation of measurement (1x2 matrix, default: [0, 0])
 %       (matrix) OBS_DATA    : The measured relative pose from POSE to landmarks (Mx6 matrix)
 %       (matrix) OBS_MAP     : The landmark map of measured landmarks (Mx6 matrix)
 %
@@ -25,9 +24,6 @@ function [obsData, obsMap] = observe_pose(map, pose, visibleRate, noiseStd)
 %   Note: The measured relative pose, OBS_DATA, is represented by Mx6 matrix whose
 %       format is exactly same with POSE and MAP.
 %
-%   Note: Standard deviation, NOISE_STD, is 1x2 matrix whose first element affects to
-%       translational parts (1:3) and second element affects to rotational parts (4:6).
-%
 %   Examples:
 %       map  = [ 0, 0, 5, 0, 0, 0; ...
 %                5, 0, 5, 0, 0, 0; ...
@@ -40,12 +36,6 @@ function [obsData, obsMap] = observe_pose(map, pose, visibleRate, noiseStd)
 
 if nargin < 3
     visibleRate = 1;
-end
-if nargin < 4
-    noiseStd = 0;
-end
-if length(noiseStd) < 2
-    noiseStd = [noiseStd, noiseStd];
 end
 
 isVisible = rand(size(map,1), 1) < visibleRate; % Select visible landmarks
@@ -62,6 +52,4 @@ if obsNum > 0
         R = tran_rad2rot(pose(4:6))' * tran_rad2rot(obsMap(i,4:6)); % Calculate orientation one by one
         obsData(i,4:6) = tran_rot2rad(R);
     end
-    obsData(:,1:3) = obsData(:,1:3) + noiseStd(1) * randn(obsNum,obsDim/2); % Add Gaussian noise
-    obsData(:,4:6) = obsData(:,4:6) + noiseStd(2) * randn(obsNum,obsDim/2); % Add Gaussian noise
 end

@@ -1,11 +1,10 @@
-function [obsData, obsMap] = observe_distance(map, pose, visibleRate, noiseStd)
+function [obsData, obsMap] = observe_distance(map, pose, visibleRate)
 %OBSERVE_DISTANCE  Measure distance from the given pose to landmarks.
 %
 %   [OBS_DATA, OBS_MAP] = CALCULATE_DISTANCE(MAP, POSE, VISIBLE_RATE, NOISE_STD)
 %       (matrix) MAP         : A landmark map (Nx6 matrix)
 %       (matrix) POSE        : Pose of the target object (1x6 matrix)
 %       (scalar) VISIBLE_RATE: Visible probability of landmarks (default: 1)
-%       (scalar) NOISE_STD   : Standard deviation of measurement (default: 0)
 %       (matrix) OBS_DATA    : The measured distance from POSE to landmarks (Mx1 matrix)
 %       (matrix) OBS_MAP     : The landmark map of measured landmarks (Mx6 matrix)
 %
@@ -35,9 +34,6 @@ function [obsData, obsMap] = observe_distance(map, pose, visibleRate, noiseStd)
 if nargin < 3
     visibleRate = 1;
 end
-if nargin < 4
-    noiseStd = 0;
-end
 
 isVisible = rand(size(map,1), 1) < visibleRate; % Select visible landmarks
 obsMap = map(isVisible,:);
@@ -48,6 +44,4 @@ obsData = zeros(obsNum,obsDim);
 if obsNum > 0
     delta = obsMap(:,1:3) - repmat(pose(1:3), obsNum, 1);
     obsData = sqrt(delta(:,1).^2 + delta(:,2).^2 + delta(:,3).^2); % Calculate distance
-    obsData = obsData + noiseStd * randn(obsNum,obsDim);           % Add Gaussian noise
-    obsData(obsData < 0) = 0;
 end
