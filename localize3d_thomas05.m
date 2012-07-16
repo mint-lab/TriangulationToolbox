@@ -1,4 +1,4 @@
-function [pose, valid] = localize_thomas05(data, map)
+function [pose, valid] = localize3d_thomas05(data, map)
 %   References:
 %       [1] F. Thomas and L. Ros, Revisiting Trilateration for Robot Localization, IEEE Trans. on Robotics, Vol. 21, No. 1, 2005
 %           URL: http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=1391018

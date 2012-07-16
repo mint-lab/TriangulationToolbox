@@ -25,9 +25,17 @@ disp('==== test_is_near ====');
 test_is_near(82, 84, 5);
 test_is_near(4.17, 4.17 + eps);
 
-% calculate_distance
-disp('==== calculate_distance ====');
-test_is_true(calculate_distance([1, 2], [3, 4]) == 2 * sqrt(2));
+% error_position
+disp('==== error_position====');
+test_is_true(error_position([1, 2], [3, 4]) == 2 * sqrt(2));
+
+% error_orientation
+disp('==== error_orientation ====');
+test_is_near(error_orientation([ 0,  0,  0], [ 0,  0, pi]), pi);
+test_is_near(error_orientation([ 0,  0,  0], [ 0, pi,  0]), pi);
+test_is_near(error_orientation([ 0,  0,  0], [pi,  0,  0]), 0);
+test_is_near(error_orientation([ 0,  0,  0], [pi, pi,  0]), pi);
+test_is_near(error_orientation([ 0,  0,  0], [ 0, pi, pi]), 0);
 
 % trim_rad
 disp('==== trim_rad ====');
@@ -119,11 +127,12 @@ hold on;
     plot(out1(:,1), out1(:,2), 'r.');
     plot(out2(:,1), out2(:,2), 'b.');
     plot(out3(:,1), out3(:,2), 'g.');
-    title('apply\_noise\_gauss: Noise Distribution');
+    title('apply\_noise\_gauss: Noise Distributions');
     xlabel('Data X');
     ylabel('Data Y');
     legend({'\sigma = [3, 0; 0, 3]', '\sigma = [1, 0; 0, 2]', '\sigma = [2, 1; 1, 2]'});
-    axis equal;
     grid on;
+    axis equal;
+    axis([-10, 10, -10, 10]);
     box on;
 hold off;

@@ -1,8 +1,8 @@
 function [R] = tran_rad2rot(radian)
-%TRAN_RAD2ROT  Compose a 3D rotation matrix from the given orientation.
+%TRAN_RAD2ROT  Compose a 3D rotation matrix from the given ZYX Euler angle.
 %
 %   [R] = TRAN_RAD2ROT(RADIAN)
-%       (matrix) RADIAN: The given orientation [rad] (1x3 matrix)
+%       (matrix) RADIAN: The given Euler angle [rad] (1x3 matrix)
 %       (matrix) R     : 3D rotation matrix (3x3 matrix)
 %
 %   Note: Orientation, RADIAN, is represented by 1x3 matrix whose elements are
