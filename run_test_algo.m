@@ -42,6 +42,13 @@ disp('==== localize2d_shimshoni02_improved ====');
 test_is_true(valid == [1, 1, 0, 0, 0, 1]);
 test_is_near(pose(valid == true), truePose(valid == true));
 
+% localize2d_betke97
+disp('==== localize2d_betke97 ====');
+[obsData, obsMap] = observe_bearing(trueMap, truePose);
+[pose, valid] = localize2d_betke97(obsData, obsMap);
+test_is_true(valid == [1, 1, 0, 0, 0, 1]);
+test_is_near(pose(valid == true), truePose(valid == true));
+
 % The given landmark map and true pose for 3D localization %%%%%%%%%%%%%%%%%%%%
 trueMap =                                      ...
 [                                              ...
