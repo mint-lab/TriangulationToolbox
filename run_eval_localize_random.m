@@ -4,11 +4,12 @@ clear all;
 disp('== Localization Evaluatioin for Triangulation Toolbox ==');
 
 % The given configuration
-config.space     = [100, 100, 4];
-config.dim       = 2;
-config.pool      = 100;
-config.trial     = 2;
+config.space     = [100, 100, 10];
+config.dim       = 3;
+config.pool      = 1000;
+config.trial     = 100;
 config.verbose   = true;
+config.filename  = 'run_eval_localize_random.csv';
 config.fixPose   = [50, 50, 0, 0, 0, pi / 4];
 config.fixNoise  = 0.1;
 config.fixN      = 4;
@@ -26,28 +27,37 @@ config.varMethod =                                                              
     7,  3,  'Thomas05',   @localize3d_thomas05, @observe_distance,     3,      [1 1 1 0 0 0]; ...
 };
 
+if config.trial <= 1
+    error('The number of trials, config.trial, should be more than 1!');
+end
+if config.pool  <= 5
+    error('The number of landmarks in the pool, config.pool, should be more than 5!');
+end
+
 % Generate a pool of landmarks
 pool = zeros(config.pool,6);
 pool(:,1:config.dim) = repmat(config.space(1:config.dim), config.pool, 1) .* rand(config.pool,config.dim);
-pool(:,4:6) = 2 * pi * rand(config.pool,3) - pi;
+pool(:,4:6)          = 2 * pi * rand(config.pool,3) - pi;
 
 % Perform experiment #1 and #2
-record.position =                                                           ...
-{                                                                           ...
-    -ones(config.trial, size(config.varMethod,1), length(config.varNoise)), ...
-    -ones(config.trial, size(config.varMethod,1), length(config.varN))      ...
+record.position =                                                                ...
+{                                                                                ...
+    inf * ones(config.trial, length(config.varNoise), size(config.varMethod,1)), ...
+    inf * ones(config.trial, length(config.varN),     size(config.varMethod,1)), ...
 };
 record.orientation = record.position;
-record.runtime = record.position;
-variable = {config.varNoise, config.varN};
-for ex = 1:length(variable)                                 % Experiments
+record.runtime     = record.position;
+variable.name  = {'Noise', 'N'};
+variable.value = {config.varNoise, config.varN};
+warning off;
+for ex = 1:length(variable.value)                           % Loop for experiments
     if config.verbose
-        fprintf('==== Experiment #%d ====\n', ex);
+        fprintf('\n==== Progress on Experiment #%d: %s ====\n', ex, variable.name{ex});
     end
     param = [config.fixNoise, config.fixN];
-    for v = 1:length(variable{ex})                          % Values
-        param(ex) = variable{ex}(v);
-        for t = 1:config.trial                              % Trials
+    for v = 1:length(variable.value{ex})                    % Loop for values
+        param(ex) = variable.value{ex}(v);
+        for t = 1:config.trial                              % Loop for trials
             % 1. Select landmarks randomly
             sample = zeros(1,config.pool,'uint8');
             while sum(sample) < param(2)
@@ -58,7 +68,7 @@ for ex = 1:length(variable)                                 % Experiments
             noisyMap = cleanMap;
             noisyMap(:,1:config.dim) = apply_noise_gauss(cleanMap(:,1:config.dim), param(1));
 
-            for m = 1:size(config.varMethod,1)              % Methods
+            for m = 1:size(config.varMethod,1)              % Loop for methods
                 % 2. Check the operating condition
                 if (config.dim ~= config.varMethod{m,2}) || (param(2) < config.varMethod{m,6})
                     continue;
@@ -68,10 +78,10 @@ for ex = 1:length(variable)                                 % Experiments
                 obsData = feval(config.varMethod{m,5}, noisyMap, config.fixPose);
                 tic;
                 [pose, valid] = feval(config.varMethod{m,4}, obsData, cleanMap);
-                record.runtime{ex}(t,m,v) = toc;
+                record.runtime{ex}(t,v,m) = toc * 1000; % [sec] to [msec]
                 if isequal(valid, config.varMethod{m,7})
-                    record.position{ex}(t,m,v) = error_position(config.fixPose(1:3), pose(1:3));
-                    record.orientation{ex}(t,m,v) = error_orientation(config.fixPose(4:6), pose(4:6));
+                    record.position{ex}(t,v,m) = error_position(config.fixPose(1:3), pose(1:3));
+                    record.orientation{ex}(t,v,m) = tran_rad2deg(error_orientation(config.fixPose(4:6), pose(4:6))); % [rad] to [deg]
                 end
             end
         end
@@ -83,6 +93,50 @@ for ex = 1:length(variable)                                 % Experiments
         end
     end
 end
+warning on;
+
+% Write results to a text file
+criteria.name = {'1) Position Error', '2) Orientation Error', ...
+                 '3) Computing Time [msec]', '4) Number of Failure'};
+criteria.format = {'%.6f', '%.3f', '%.6f', '%d'};
+if isempty(config.filename)
+    fid = 1;
+else
+    fid = fopen(config.filename, 'wt');
+end
+for ex = 1:length(variable.value)
+    fprintf(fid, '\n==== Results on Experiment #%d: %s ====\n', ex, variable.name{ex});
+    for cr = 1:length(criteria.name)
+        % 1. Print header
+        fprintf(fid, '\n%s\n', criteria.name{cr});
+        fprintf(fid, '%s', variable.name{ex});
+        for v = 1:length(variable.value{ex})
+            fprintf(fid, ', %.1f', variable.value{ex}(v));
+        end
+        fprintf(fid, '\n');
+
+        % 2. Print results by each method
+        for m = 1:size(config.varMethod,1)
+            switch cr
+                case 1
+                    result = median(record.position{ex}(:,:,m));
+                case 2
+                    result = median(record.orientation{ex}(:,:,m));
+                case 3
+                    result = median(record.runtime{ex}(:,:,m));
+                case 4
+                    result = sum(record.position{ex}(:,:,m) == inf);
+            end
+            fprintf(fid, '%s', config.varMethod{m,3});
+            for i = 1:size(result,2)
+                fprintf(fid, [', ', criteria.format{cr}], result(i));
+            end
+            fprintf(fid, '\n');
+        end
+    end
+end
+if ~isempty(config.filename)
+    fclose(fid);
+end
 
 % Visualize results
-

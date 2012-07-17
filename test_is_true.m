@@ -19,12 +19,8 @@ end
 
 if isequal(value, ones(size(value)))
     result = true;
+    if verbose, fprintf(1, 'true\n'); end
 else
     result = false;
-end
-
-% Print 'result'
-TEXT = {'true', 'false'};
-if verbose
-    disp(TEXT(2 - result));
+    if verbose, fprintf(2, 'false\n'); end
 end
