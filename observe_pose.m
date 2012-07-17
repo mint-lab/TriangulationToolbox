@@ -1,7 +1,7 @@
 function [obsData, obsMap] = observe_pose(map, pose, visibleRate)
 %OBSERVE_POSE  Measure relative pose from the given pose to landmarks.
 %
-%   [OBS_DATA, OBS_MAP] = OBSERVE_POSE(MAP, POSE, VISIBLE_RATE, NOISE_STD)
+%   [OBS_DATA, OBS_MAP] = OBSERVE_POSE(MAP, POSE, VISIBLE_RATE)
 %       (matrix) MAP         : A landmark map (Nx6 matrix)
 %       (matrix) POSE        : Pose of the target object (1x6 matrix)
 %       (scalar) VISIBLE_RATE: Visible probability of landmarks (default: 1)

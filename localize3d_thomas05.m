@@ -50,7 +50,7 @@ else
                                [1, a*a,   0, l2*l2];
                                [1, b*b, c*c, l3*l3]]);
 
-    k3 = (sqrt(volumen)) / area;
+    k3 = sqrt(volumen) / area;
 
     p4a = p1 + k1 * (p2 - p1) + k2 * (p3 - p1) + k3 * cross(p2 - p1, p3 - p1);
     p4b = p1 + k1 * (p2 - p1) + k2 * (p3 - p1) - k3 * cross(p2 - p1, p3 - p1);

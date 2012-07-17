@@ -8,7 +8,7 @@ trueMap =                                      ...
 [                                              ...
     % x,  y,  z, r_x, r_y, r_z                 ...
       0,  0,  0,   0,  0,  0;                  ...
-      4,  0,  0,   0,  0,  0; ...
+      4,  0,  0,   0,  0,  0;                  ...
       8,  0,  0,   0,  0,  tran_deg2rad( +90); ...
       8,  4,  0,   0,  0,  tran_deg2rad( +90); ...
       8,  8,  0,   0,  0,  tran_deg2rad(-180); ...
@@ -26,8 +26,8 @@ obsData = apply_noise_gauss(obsData, paramNoise);
 
 % Estimate pose from observation
 [pose, valid] = localize2d_shimshoni02_algebraic(obsData, obsMap);
-err.position = error_position(truePose(1:3), pose(1:3));
-err.orientation = error_orientation(truePose(4:6), pose(4:6));
+errPos = error_position(truePose(1:3), pose(1:3));
+errOri = error_orientation(truePose(4:6), pose(4:6));
 
 % Print results
 disp('==== The Given Configuration ====');
@@ -38,9 +38,9 @@ disp('==== The Estimated Pose ====');
 fprintf('- The estimated position   : (%.3f, %.3f, %.3f)\n', pose(1:3));
 fprintf('- The estimated orientation: (%.3f, %.3f, %.3f) [rad] /', pose(4:6));
 fprintf(' (%.1f, %.1f, %.1f) [deg]\n', tran_rad2deg(pose(4:6)));
-fprintf('- The position error   : %.3f\n', err.position);
-fprintf('- The orientation error: %.3f [rad] /', err.orientation);
-fprintf(' %.1f [deg]\n', tran_rad2deg(err.orientation));
+fprintf('- The position error   : %.3f\n', errPos);
+fprintf('- The orientation error: %.3f [rad] /', errOri);
+fprintf(' %.1f [deg]\n', tran_rad2deg(errOri));
 
 % Visualize results
 figure();
