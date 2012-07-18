@@ -60,7 +60,7 @@ hold on;
     ylabel('Y');
     zlabel('Z');
     legend({'All Landmarks', 'Obs. Landmarks', 'True Position', 'Est. Position'});
+    box on;
     grid on;
     axis equal;
-    box on;
 hold off;

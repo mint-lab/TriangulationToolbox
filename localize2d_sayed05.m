@@ -13,7 +13,7 @@ end
 origin = map(1,1:2);
 H = map(2:end,1:2) - repmat(origin, size(map,1) - 1, 1);
 if rank(H) < 2
-    warning('Landmarks in MAP are on a line!');
+    warning('All landmarks on MAP lie on a line!');
 end
 b = (H(:,1).^2 + H(:,2).^2 - data(2:end).^2 + data(1)^2) * 0.5;
 x = pinv(H) * b; % Solve H * x = b

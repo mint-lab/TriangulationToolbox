@@ -14,9 +14,9 @@ origin = map(1,1:3);
 H = map(2:end,1:3) - repmat(origin, size(map,1) - 1, 1);
 dof = rank(H);
 if dof < 2
-    warning('Landmarks in MAP are on a line!');
+    warning('All landmarks on MAP lie on a same line!');
 elseif dof < 3
-    warning('Landmarks in MAP are on a plane!');
+    warning('All landmarks in MAP lie on a same plane!');
 end
 b = (H(:,1).^2 + H(:,2).^2 + H(:,3).^2 - data(2:end).^2 + data(1)^2) * 0.5;
 x = pinv(H) * b; % Solve H * x = b

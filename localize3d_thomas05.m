@@ -35,15 +35,15 @@ volumen = 0.125 * det([[0,     1,     1,     1,     1];
                        [1, l1*l1, l2*l2, l3*l3,     0]]);
 
 if (area == 0) || (volumen < 0)
-    warning('The algorithm detects a degernerate case!');
+    warning('A degernerate case was detected!');
 
     pose = zeros(1,6);
     valid = [false, false, false, false, false, false];
 else
-    k1 = (0.25 / area) * det([[0,   1,   1,     1];
-                              [1,   0, b*b, l1*l1];
-                              [1, a*a, c*c, l2*l2];
-                              [1, b*b,   0, l3*l3]]);
+    k1 = (+0.25 / area) * det([[0,   1,   1,     1];
+                               [1,   0, b*b, l1*l1];
+                               [1, a*a, c*c, l2*l2];
+                               [1, b*b,   0, l3*l3]]);
 
     k2 = (-0.25 / area) * det([[0,   1,   1,     1];
                                [1,   0, a*a, l1*l1];
