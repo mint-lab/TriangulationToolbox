@@ -3,7 +3,7 @@ function [radian] = tran_rot2rad(R)
 %
 %   [RADIAN] = TRAN_ROT2RAD(R)
 %       (matrix) R     : The given 3D rotation matrix (3x3 matrix)
-%       (matrix) RADIAN: An Euler angle [rad] (1x3 matrix)
+%       (matrix) RADIAN: The decomposed Euler angle [rad] (1x3 matrix)
 %
 %   Note: Orientation, RADIAN, is represented by 1x3 matrix whose elements are
 %       rotation angle with respect to x, y, and z axes, respectively.

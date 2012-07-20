@@ -18,7 +18,7 @@ function [obsData, obsMap] = observe_distance(map, pose, visibleRate)
 %       orientation of landmarks, (r_x, r_y, r_z) [rad].
 %
 %   Note: The number of output data, M, will be approximately VISIBLE_RATE * N.
-%       If there is no visible landmark, OBS_DATA and OBS_MAP will be empty matrice.
+%       If there is no visible landmark, OBS_DATA and OBS_MAP will be an empty matrix.
 %       Please use the command, ISEMPTY, to identify an empty matrix.
 %
 %   Examples:

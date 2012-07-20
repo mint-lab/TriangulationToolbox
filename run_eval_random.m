@@ -29,8 +29,8 @@ config.warning   = 'off'; % Show warning during experiments ('on' or 'off')
 config.matLoad   = false; % Use saved MAT-file without experiments (true or false)
 config.matFile   = 'run_eval_random.mat'; % Filename for loading and saving MAT-file
 config.csvFile   = 'run_eval_random.csv'; % Filename for writing CSV-file
-config.showGraph = [1, 2, 3, 4, 5, 6]; % Index of algorithms to show their graphs
-config.showHist  = [1, 2, 1];          % Index of experiment, variable, and criteria to show histograms
+config.showGraph = [1, 2, 3, 4, 5, 6, 7]; % Index of algorithms to show their graphs
+config.showHist  = [1, 2, 1]; % Index of experiment, variable, and criteria to show histograms
 
 variable.name   = {'Magnitude of Noise', 'Number of Landmarks'};   % Name of independent variables
 variable.value  = {config.varNoise, config.varN};                  % Range of independent variables
@@ -38,7 +38,7 @@ variable.format = {'%.1f', '%d'};                                  % Format for 
 
 criteria.name   = {'Position Error', 'Orientation Error [deg]', ...
                    'Computing Time [msec]', 'Number of Failures'}; % Name of evaluation criteria
-criteria.repr   = {@median, @median, @median, @sum};               % Functions for calculating representive value
+criteria.repr   = {@median, @median, @median, @sum};               % Functions for calculating representive values
                                                                    %  (e.g. mean, median, std, and sum)
 criteria.format = {'%.6f', '%.3f', '%.6f', '%d'};                  % Format for printing text
 
@@ -113,18 +113,18 @@ if ~config.matLoad
     end % End of 'for ex'
     warning on;
     if ~isempty(config.matFile)
-        backup.matFile   = config.matFile;
-        backup.csvFile   = config.csvFile;
-        backup.showGraph = config.showGraph;
-        backup.showHist  = config.showHist;
         save(config.matFile, 'config', 'variable', 'criteria', 'record');
-        config.matFile   = backup.matFile;
-        config.csvFile   = backup.csvFile;
-        config.showGraph = backup.showGraph;
-        config.showHist  = backup.showHist;
     end
 else
+    backup.matFile   = config.matFile;
+    backup.csvFile   = config.csvFile;
+    backup.showGraph = config.showGraph;
+    backup.showHist  = config.showHist;
     load(config.matFile);
+    config.matFile   = backup.matFile;
+    config.csvFile   = backup.csvFile;
+    config.showGraph = backup.showGraph;
+    config.showHist  = backup.showHist;
 end % End of 'if config.matLoad'
 
 % Show experimental results %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -172,11 +172,14 @@ if ~isempty(config.csvFile)
 end
 
 % 5. Show 'result' as graphs
+style = hgexport('factorystyle');
+style.Bounds = 'tight';
+graph = [];
 for ex = 1:length(variable.value)
     for cr = 1:length(criteria.name)
         % Draw results of each method
         isDrawn = [];
-        figure('Color', [1, 1, 1]);
+        graph = [graph, figure('Color', [1, 1, 1])];
         hold on;
             set(gca, 'FontSize', 12);
             box on;
@@ -191,6 +194,7 @@ for ex = 1:length(variable.value)
             xlabel(variable.name{ex}, 'FontSize', 12);
             ylabel(criteria.name{cr}, 'FontSize', 12);
             legend(config.algorithm(isDrawn,3), 'FontSize', 10);
+            hgexport(gcf, '-clipboard', style, 'applystyle', true); % Expand axes to fill figure
         hold off;
     end
 end
@@ -202,7 +206,7 @@ cr = config.showHist(3);
 param = [config.fixNoise, config.fixN];
 param(ex) = variable.value{ex}(v);
 histX = 0:0.02:1;
-figure('Color', [1, 1, 1]);
+graph = [graph, figure('Color', [1, 1, 1])];
 hold on;
     set(gca, 'FontSize', 12);
     box on;
@@ -217,4 +221,5 @@ hold on;
     xlabel(variable.name{ex}, 'FontSize', 12);
     ylabel('Frequency Ratio', 'FontSize', 12);
     legend(config.algorithm(config.showGraph,3), 'FontSize', 10);
+    hgexport(gcf, '-clipboard', style, 'applystyle', true); % Expand axes to fill figure
 hold off;

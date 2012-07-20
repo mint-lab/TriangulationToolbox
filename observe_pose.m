@@ -18,7 +18,7 @@ function [obsData, obsMap] = observe_pose(map, pose, visibleRate)
 %       orientation of landmarks, (r_x, r_y, r_z) [rad].
 %
 %   Note: The number of output data, M, will be approximately VISIBLE_RATE * N.
-%       If there is no visible landmark, OBS_DATA and OBS_MAP will be empty matrice.
+%       If there is no visible landmark, OBS_DATA and OBS_MAP will be an empty matrix.
 %       Please use the command, ISEMPTY, to identify an empty matrix.
 %
 %   Note: The measured relative pose, OBS_DATA, is represented by Mx6 matrix whose
@@ -34,7 +34,7 @@ function [obsData, obsMap] = observe_pose(map, pose, visibleRate)
 %
 %   See also observe_distance, observe_bearing, observe_displacement.
 
-if nargin < 3
+if (nargin < 3) || isempty(visibleRate)
     visibleRate = 1;
 end
 
