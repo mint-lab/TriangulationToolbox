@@ -19,7 +19,7 @@ function [pose, valid] = localize3d_thomas05(data, map)
 %       exactly three, this algorithm may return two sets of POSE and VALID due to ambiguity.
 %       If N is more than three, this algorithm uses 4-th measurement to resolve ambiguity.
 %
-%   Note: This implementation is based on Thomas's original code once available at
+%   Note: This implementation is slightly modified from Thomas's original code once available at
 %       his homepage, http://www-iri.upc.es/people/~thomas.
 %
 %   References:

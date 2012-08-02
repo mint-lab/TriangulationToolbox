@@ -26,7 +26,7 @@ pap.size = get(h, 'PaperSize');
 set(h, 'PaperSize', fig.rect(3:4));
 
 % Write a PDF file
-saveas(h, filename, format);
+saveas(h, filename);
 
 % Restore configuration
 set(h, 'Units', fig.unit);

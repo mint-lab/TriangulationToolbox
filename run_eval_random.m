@@ -12,7 +12,7 @@ config.fixPose   = [50, 50, 0, 0, 0, pi / 4];   % Pose of the target object
 config.fixNoise  = 0.1;                         % Standard deviation of noise (default)
 config.fixN      = 4;                           % The number of landmarks for localization (default)
 config.varNoise  = 0:0.1:1.0;                   % Range of std. of noise
-config.varN      = [2, 3, 4, 6, 8, 16, 32, 64]; % Range of the number of landmarks for localization
+config.varN      = [2, 3, 4, 6, 8, 16, 32, 64, 128]; % Range of the number of landmarks for localization
 config.algorithm = ...                          % Description of localization algorithms
 {                                                                                                       ...
   % #, Dim, Name,         Local. Function,      Observation Function,     Min. N, Valid,    Line Sytle; ...
@@ -30,7 +30,8 @@ config.matLoad   = false; % Use saved MAT-file without experiments (true or fals
 config.matFile   = 'run_eval_random.mat'; % Filename for loading and saving MAT-file
 config.csvFile   = 'run_eval_random.csv'; % Filename for writing CSV-file
 config.showGraph = [1, 2, 3, 4, 5, 6, 7]; % Index of algorithms to show their graphs
-config.showHist  = [1, 2, 1]; % Index of experiment, variable, and criteria to show histograms
+config.histExp   = [1, 3, 1]; % Index of experiment, variable, and criteria to show histograms
+config.histBin   = 0:0.02:1;
 
 variable.name   = {'Magnitude of Noise', 'Number of Landmarks'};   % Name of independent variables
 variable.value  = {config.varNoise, config.varN};                  % Range of independent variables
@@ -119,12 +120,13 @@ else
     backup.matFile   = config.matFile;
     backup.csvFile   = config.csvFile;
     backup.showGraph = config.showGraph;
-    backup.showHist  = config.showHist;
+    backup.histExp   = config.histExp;
+    backup.histBin   = config.histBin;
     load(config.matFile);
     config.matFile   = backup.matFile;
     config.csvFile   = backup.csvFile;
     config.showGraph = backup.showGraph;
-    config.showHist  = backup.showHist;
+    config.histBin   = backup.histBin;
 end % End of 'if config.matLoad'
 
 % Show experimental results %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -200,21 +202,20 @@ for ex = 1:length(variable.value)
 end
 
 % 6. Show 'record' as histograms
-ex = config.showHist(1);
-v  = config.showHist(2);
-cr = config.showHist(3);
+ex = config.histExp(1);
+v  = config.histExp(2);
+cr = config.histExp(3);
 param = [config.fixNoise, config.fixN];
 param(ex) = variable.value{ex}(v);
-histX = 0:0.02:1;
 graph = [graph, figure('Color', [1, 1, 1])];
 hold on;
     set(gca, 'FontSize', 12);
     box on;
     grid on;
     for m = config.showGraph
-        histN = histc(record{ex,cr}(:,v,m), histX);
+        histN = histc(record{ex,cr}(:,v,m), config.histBin);
         histN = histN / config.trial;
-        plot(histX, histN, config.algorithm{m,8}, 'LineWidth', 2, 'MarkerSize', 2);
+        plot(config.histBin, histN, config.algorithm{m,8}, 'LineWidth', 2, 'MarkerSize', 2);
     end
     title(sprintf(['Histogram: %s at (', variable.format{1}, ', ', variable.format{2}, ')'], ...
         criteria.name{cr}, param), 'FontSize', 12);
