@@ -8,7 +8,7 @@ config.dim       = 2;                           % Dimension of localization (2 o
 config.space     = [100, 100, 50];              % Size of the operating space
 config.pool      = 1000;                        % The number of pre-generated landmarks (> 5)
 config.trial     = 2000;                        % The number of trials (> 1)
-config.fixPose   = [50, 50, 0, 0, 0, pi / 4];   % Pose of the target object
+config.pose      = [50, 50, 0, 0, 0, pi / 4];   % Pose of the target object
 config.fixNoise  = 0.1;                         % Standard deviation of noise (default)
 config.fixN      = 4;                           % The number of landmarks for localization (default)
 config.varNoise  = 0:0.1:1.0;                   % Range of std. of noise
@@ -24,6 +24,10 @@ config.algorithm = ...                          % Description of localization al
     6,  3,  'Sayed05-3D', @localize3d_sayed05,  @observe_distance,             4, [1 1 1 0 0 0], 'ko-'; ...
     7,  3,  'Thomas05',   @localize3d_thomas05, @observe_distance,             3, [1 1 1 0 0 0], 'm+-'; ...
 };
+config.algoName  = 3;
+config.algoAlgo  = 4;
+config.algoMinN  = 6;
+config.algoLine  = 8;
 config.verbose   = true;  % Show progress of experiments (true or false)
 config.warning   = 'off'; % Show warning during experiments ('on' or 'off')
 config.matLoad   = false; % Use saved MAT-file without experiments (true or false)
@@ -33,35 +37,34 @@ config.showGraph = [1, 2, 3, 4, 5, 6, 7]; % Index of algorithms to show their gr
 config.histExp   = [1, 3, 1]; % Index of experiment, variable, and criteria to show histograms
 config.histBin   = 0:0.02:1;
 
-variable.name   = {'Magnitude of Noise', 'Number of Landmarks'};   % Name of independent variables
-variable.value  = {config.varNoise, config.varN};                  % Range of independent variables
-variable.format = {'%.1f', '%d'};                                  % Format for printing text
+variable.name    = {'Magnitude of Noise', 'Number of Landmarks'};   % Name of independent variables
+variable.value   = {config.varNoise, config.varN};                  % Range of independent variables
+variable.format  = {'%.1f', '%d'};                                  % Format for printing text
 
-criteria.name   = {'Position Error', 'Orientation Error [deg]', ...
-                   'Computing Time [msec]', 'Number of Failures'}; % Name of evaluation criteria
-criteria.repr   = {@median, @median, @median, @sum};               % Functions for calculating representive values
-                                                                   %  (e.g. mean, median, std, and sum)
-criteria.format = {'%.6f', '%.3f', '%.6f', '%d'};                  % Format for printing text
+criteria.name    = {'Position Error [meters]', 'Orientation Error [deg]', ...
+                    'Computing Time [msec]', 'Number of Failures'}; % Name of evaluation criteria
+criteria.repr    = {@median, @median, @median, @sum};               % Functions for calculating representive values
+                                                                    %  (e.g. mean, median, std, and sum)
+criteria.format  = {'%.6f', '%.3f', '%.6f', '%d'};                  % Format for printing text
 
 % Perform experiments %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if ~config.matLoad
-    % 1. Generate landmarks randomly
+    % 1. Generate features randomly
     if config.pool <= 5
-        error('TT: The number of landmarks, config.pool, should be more than 5!');
+        error('TT: The number of landmarks ''config.pool'' should be more than 5!');
     end
     pool = zeros(config.pool,6);
     pool(:,1:config.dim) = repmat(config.space(1:config.dim), config.pool, 1) .* rand(config.pool,config.dim);
     pool(:,4:6)          = 2 * pi * rand(config.pool,3) - pi;
 
-    % 2. Execute each localization 'config.trial' times
+    % 2. Execute each algorithm 'config.trial' times
     if config.trial <= 1
-        error('TT: The number of trials, config.trial, should be more than 1!');
+        error('TT: The number of trials ''config.trial'' should be more than 1!');
     end
     for ex = 1:length(variable.value)
-        record{ex,1} = inf * ones(config.trial, length(variable.value{ex}), size(config.algorithm,1));
-        record{ex,2} = inf * ones(config.trial, length(variable.value{ex}), size(config.algorithm,1));
-        record{ex,3} = inf * ones(config.trial, length(variable.value{ex}), size(config.algorithm,1));
-        record{ex,4} = zeros(config.trial, length(variable.value{ex}), size(config.algorithm,1));
+        for cr = 1:length(criteria.name)
+            record{ex,cr} = inf * ones(config.trial, length(variable.value{ex}), size(config.algorithm,1));
+        end
     end
     if isequal(config.warning, 'off');
         warning off;
@@ -70,8 +73,8 @@ if ~config.matLoad
         if config.verbose
             fprintf('\n==== Progress on Experiment #%d: %s ====\n', ex, variable.name{ex});
         end
-        param = [config.fixNoise, config.fixN];
         for v = 1:length(variable.value{ex})                    % Loop for 'v'ariables
+            param = [config.fixNoise, config.fixN];
             param(ex) = variable.value{ex}(v);
             for t = 1:config.trial                              % Loop for 't'rials
                 % Select landmarks randomly
@@ -86,18 +89,19 @@ if ~config.matLoad
 
                 for m = 1:size(config.algorithm,1)              % Loop for 'm'ethods
                     % Check the operating condition
-                    if (config.dim > config.algorithm{m,2}) || (param(2) < config.algorithm{m,6})
+                    if (config.dim > config.algorithm{m,2}) || (param(2) < config.algorithm{m,config.algoMinN})
                         continue;
                     end
 
                     % Estimate pose
-                    obsData = feval(config.algorithm{m,5}, noisyMap, config.fixPose);
+                    obsData = feval(config.algorithm{m,5}, noisyMap, config.pose);
                     tic;
                     [pose, valid] = feval(config.algorithm{m,4}, obsData, cleanMap);
                     record{ex,3}(t,v,m) = toc * 1000; % [sec] to [msec]
                     if isequal(valid, config.algorithm{m,7})
-                        record{ex,1}(t,v,m) = error_position(config.fixPose(1:3), pose(1:3));
-                        record{ex,2}(t,v,m) = tran_rad2deg(error_orientation(config.fixPose(4:6), pose(4:6))); % [rad] to [deg]
+                        record{ex,1}(t,v,m) = error_position(config.pose(1:3), pose(1:3));
+                        record{ex,2}(t,v,m) = tran_rad2deg(error_orientation(config.pose(4:6), pose(4:6))); % [rad] to [deg]
+                        record{ex,4}(t,v,m) = 0;
                     else
                         record{ex,4}(t,v,m) = 1;
                     end
@@ -106,9 +110,7 @@ if ~config.matLoad
 
             % Print progress
             if config.verbose
-                fprintf([' [', variable.name{1}(1), variable.format{1}, ', ', ...
-                               variable.name{2}(1), variable.format{2}, '] ', ...
-                         'Each method performed %d times.\n'], param, config.trial);
+                fprintf('Each method performed %d times. [Param] %s\n', config.trial, num2str(param));
             end
         end % End of 'for v'
     end % End of 'for ex'
@@ -126,6 +128,7 @@ else
     config.matFile   = backup.matFile;
     config.csvFile   = backup.csvFile;
     config.showGraph = backup.showGraph;
+    config.histExp   = backup.histExp;
     config.histBin   = backup.histBin;
 end % End of 'if config.matLoad'
 
@@ -146,7 +149,7 @@ end
 if ~isempty(config.csvFile)
     fid = fopen(config.csvFile, 'wt');
     if fid < 0
-        error('TT: Cannot open a file, %s!', config.csvFile);
+        error('TT: Cannot open a file, ''%s''!', config.csvFile);
     end
     for ex = 1:length(variable.value)
         fprintf(fid, '==== Results on Experiment #%d: %s ====\n', ex, variable.name{ex});
@@ -161,7 +164,7 @@ if ~isempty(config.csvFile)
 
             % Print results of each method
             for m = 1:size(config.algorithm,1)
-                fprintf(fid, '%s', config.algorithm{m,3});
+                fprintf(fid, '%s', config.algorithm{m,config.algoName});
                 for i = 1:length(variable.value{ex})
                     fprintf(fid, [', ', criteria.format{cr}], result{ex}(m,i,cr));
                 end
@@ -189,13 +192,13 @@ for ex = 1:length(variable.value)
             for m = config.showGraph
                 if (cr == 2) && (config.algorithm{m,7}(end) == 0), continue; end
                 plot(variable.value{ex}, result{ex}(m,:,cr), ...
-                    config.algorithm{m,8}, 'LineWidth', 2, 'MarkerSize', 10);
+                    config.algorithm{m,config.algoLine}, 'LineWidth', 2, 'MarkerSize', 10);
                 isDrawn = [isDrawn, m];
             end
-            title(sprintf('Experiment #%d: %s - %s', ex, variable.name{ex}, criteria.name{cr}), 'FontSize', 12);
+            title(sprintf('Experiment #%d: %s - %s', ex, variable.name{ex}, criteria.name{cr}), 'FontSize', 10);
             xlabel(variable.name{ex}, 'FontSize', 12);
             ylabel(criteria.name{cr}, 'FontSize', 12);
-            legend(config.algorithm(isDrawn,3), 'FontSize', 10);
+            legend(config.algorithm(isDrawn,config.algoName), 'FontSize', 10);
             hgexport(gcf, '-clipboard', style, 'applystyle', true); % Expand axes to fill figure
         hold off;
     end
@@ -219,7 +222,7 @@ hold on;
     end
     title(sprintf(['Histogram: %s at (', variable.format{1}, ', ', variable.format{2}, ')'], ...
         criteria.name{cr}, param), 'FontSize', 12);
-    xlabel(variable.name{ex}, 'FontSize', 12);
+    xlabel(criteria.name{cr}, 'FontSize', 12);
     ylabel('Frequency Ratio', 'FontSize', 12);
     legend(config.algorithm(config.showGraph,3), 'FontSize', 10);
     hgexport(gcf, '-clipboard', style, 'applystyle', true); % Expand axes to fill figure
