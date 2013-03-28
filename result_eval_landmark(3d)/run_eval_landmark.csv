@@ -1,0 +1,44 @@
+==== Results on Experiment #1: Noise of Landmark ====
+
+1) Position Error [m]
+Noise of Landmark, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0
+Sayed05-3D, 0.000000, 0.460712, 0.950370, 1.352980, 1.769817, 2.218955, 2.779025, 2.988656, 3.521485, 3.934056, 4.682362
+Thomas05, 0.000000, 0.294727, 0.586964, 0.907258, 1.138679, 1.394247, 1.771687, 1.983610, 2.373188, 2.585655, 3.011865
+
+2) Orientation Error [deg]
+Noise of Landmark, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0
+Sayed05-3D, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf
+Thomas05, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf
+
+3) Computing Time [msec]
+Noise of Landmark, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0
+Sayed05-3D, 0.135018, 0.134651, 0.142723, 0.144191, 0.144191, 0.143457, 0.136486, 0.142723, 0.135018, 0.135018, 0.135018
+Thomas05, 0.153730, 0.153363, 0.162536, 0.163269, 0.163636, 0.162903, 0.154464, 0.157032, 0.153730, 0.153730, 0.153730
+
+4) Number of Failures
+Noise of Landmark, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0
+Sayed05-3D, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+Thomas05, 0, 62, 93, 121, 118, 148, 159, 155, 187, 192, 191
+
+==== Results on Experiment #2: Number of Landmarks ====
+
+1) Position Error [m]
+Number of Landmarks, 2.0, 3.0, 4.0, 6.0, 8.0, 16.0, 32.0, 64.0, 128.0
+Sayed05-3D, Inf, Inf, 0.463686, 0.222776, 0.177358, 0.124140, 0.094844, 0.082202, 0.071193
+Thomas05, Inf, 0.287914, 0.297879, 0.292859, 0.284185, 0.295110, 0.286496, 0.286983, 0.289282
+
+2) Orientation Error [deg]
+Number of Landmarks, 2.0, 3.0, 4.0, 6.0, 8.0, 16.0, 32.0, 64.0, 128.0
+Sayed05-3D, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf
+Thomas05, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf
+
+3) Computing Time [msec]
+Number of Landmarks, 2.0, 3.0, 4.0, 6.0, 8.0, 16.0, 32.0, 64.0, 128.0
+Sayed05-3D, Inf, Inf, 0.135018, 0.139788, 0.139788, 0.141256, 0.144558, 0.149694, 0.160701
+Thomas05, Inf, 0.139054, 0.153730, 0.153730, 0.153730, 0.153730, 0.154831, 0.155198, 0.156298
+
+4) Number of Failures
+Number of Landmarks, 2.0, 3.0, 4.0, 6.0, 8.0, 16.0, 32.0, 64.0, 128.0
+Sayed05-3D, Inf, Inf, 0, 0, 0, 0, 0, 0, 0
+Thomas05, Inf, 62, 57, 78, 70, 62, 64, 60, 43
+

@@ -137,6 +137,8 @@ else
     load(config.matFile);
     config.matFile   = backup.matFile;
     config.csvFile   = backup.csvFile;
+    algoSelect = 1:size(config.algorithm,1);
+    algoSelect = algoSelect([config.algorithm{:,2}] == config.dim);
 end % End of 'if config.matLoad'
 
 % Show experimental results %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -146,8 +148,6 @@ for ex = 1:length(variable.value)
         result{ex,cr} = zeros(size(config.algorithm,1), length(variable.value{ex}));
     end
 end
-algoSelect = 1:size(config.algorithm,1);
-algoSelect = algoSelect([config.algorithm{:,2}] == config.dim);
 for ex = 1:length(variable.value)
     for cr = 1:length(criteria.name)
         for v = 1:length(variable.value{ex})
@@ -178,8 +178,8 @@ if ~isempty(config.csvFile)
             % Print results of each method
             for m = algoSelect
                 fprintf(fid, '%s', config.algorithm{m,config.algoName});
-                for i = 1:length(variable.value{ex})
-                    fprintf(fid, [', ', criteria.format{cr}], result{ex,cr}(m,i));
+                for v = 1:length(variable.value{ex})
+                    fprintf(fid, [', ', criteria.format{cr}], result{ex,cr}(m,v));
                 end
                 fprintf(fid, '\n');
             end
