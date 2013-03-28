@@ -93,11 +93,4 @@ else
         pose = [pose; p4b', 0, 0, 0];
         valid = [valid; valid];
     end
-
-    % Select one among two solutions using the 4th landmark if possible
-    if size(data,1) > 3
-        [~, select] = min([norm(map(4,1:3) - p4a'), norm(map(4,1:3) - p4b')]);
-        pose = pose(select, :);
-        valid = valid(select, :);
-    end
 end;
