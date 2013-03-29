@@ -1,10 +1,12 @@
 close all;
 clear all;
 
-disp('== Localization Evaluatioin (Landmark) for Triangulation Toolbox ==');
+disp('== Localization Evaluatioin (with Random Landmarks) for Triangulation Toolbox ==');
 
 % Configure experiments %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-config.dim       = 3;                               % Dimension of localization (2 or 3)
+config.dim       = 2;                               % Dimension of localization (2 or 3)
+config.observe   = [];                              % An observation function to apply noise
+                                                    %  (c.f. empty []: noise is applied to the map)
 config.space     = [100, 100, 50];                  % Size of the operating space
 config.pool      = 10000;                           % The number of pre-generated landmarks (> 5)
 config.trial     = 2000;                            % The number of trials (> 1)
@@ -24,17 +26,13 @@ config.algorithm = ...                              % Description of localizatio
     6,  3,  'Sayed05-3D', @localize3d_sayed05,  @observe_distance,             4, [1 1 1 0 0 0], 'ko-'; ...
     7,  3,  'Thomas05',   @localize3d_thomas05, @observe_distance,             3, [1 1 1 0 0 0], 'm+-'; ...
 };
-config.algoName  = 3;
-config.algoAlgo  = 4;
-config.algoMinN  = 6;
-config.algoLine  = 8;
 config.verbose   = true;                    % Show progress of experiments (true or false)
 config.warning   = 'off';                   % Show warning during experiments ('on' or 'off')
 config.matLoad   = false;                   % Use saved MAT-file without experiments (true or false)
-config.matFile   = 'run_eval_landmark.mat'; % Filename for loading and saving MAT-file
-config.csvFile   = 'run_eval_landmark.csv'; % Filename for writing CSV-file
+config.matFile   = 'run_eval_random.mat';   % Filename for loading and saving MAT-file
+config.csvFile   = 'run_eval_random.csv';   % Filename for writing CSV-file
 
-variable.name    = {'Noise of Landmark', 'Number of Landmarks'};    % Name of independent variables
+variable.name    = {'Magnitude of Noise', 'Number of Landmarks'};   % Name of independent variables
 variable.value   = {config.varNoise, config.varN};                  % Range of independent variables
 variable.format  = {'%.1f', '%d'};                                  % Format for printing text
 
@@ -45,6 +43,15 @@ criteria.repr    = {@median, @median, @median, @sum};               % Functions 
 criteria.format  = {'%.6f', '%.3f', '%.6f', '%d'};                  % Format for printing text
 
 % Perform experiments %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+config.algoDims  = 2;
+config.algoName  = 3;
+config.algoEstm  = 4;
+config.algoObsv  = 5;
+config.algoMinN  = 6;
+config.algoVald  = 7;
+config.algoLine  = 8;
+config.algoSelM  = 1:size(config.algorithm,1);
+config.algoSelM  = config.algoSelM([config.algorithm{:,config.algoDims}] == config.dim);
 if ~config.matLoad
     % 1. Generate features randomly
     if config.pool <= 5
@@ -67,8 +74,6 @@ if ~config.matLoad
     if isequal(config.warning, 'off');
         warning off;
     end
-    algoSelect = 1:size(config.algorithm,1);
-    algoSelect = algoSelect([config.algorithm{:,2}] == config.dim);
     for ex = 1:length(variable.value)                           % Loop for 'ex'periments
         if config.verbose
             fprintf('\n==== Progress on Experiment #%d: %s ====\n', ex, variable.name{ex});
@@ -87,16 +92,17 @@ if ~config.matLoad
                 noisyMap = cleanMap;
                 noisyMap(:,1:config.dim) = apply_noise_gauss(cleanMap(:,1:config.dim), param(1));
 
-                for m = algoSelect                              % Loop for 'm'ethods
+                for m = config.algoSelM                              % Loop for 'm'ethods
                     % Check the operating condition
-                    if (config.dim > config.algorithm{m,2}) || (param(2) < config.algorithm{m,config.algoMinN})
+                    if (config.dim > config.algorithm{m,config.algoDims}) || ...
+                       (param(2) < config.algorithm{m,config.algoMinN})
                         continue;
                     end
 
                     % Estimate pose
-                    obsData = feval(config.algorithm{m,5}, noisyMap, config.pose);
+                    obsData = feval(config.algorithm{m,config.algoObsv}, noisyMap, config.pose);
                     tic;
-                    [pose, valid] = feval(config.algorithm{m,4}, obsData, cleanMap);
+                    [pose, valid] = feval(config.algorithm{m,config.algoEstm}, obsData, cleanMap);
                     elapse = toc * 1000; % [sec] to [msec]
                     if size(pose,1) > 1  % When there are multiple solutions
                         bestIndex = 1;
@@ -116,7 +122,7 @@ if ~config.matLoad
                         record.perf{ex,v}(t,2,m) = tran_rad2deg(error_orientation(config.pose(4:6), pose(4:6))); % [rad] to [deg]
                     end
                     record.perf{ex,v}(t,3,m) = elapse;
-                    record.perf{ex,v}(t,4,m) = ~isequal(valid, config.algorithm{m,7});
+                    record.perf{ex,v}(t,4,m) = ~isequal(valid, config.algorithm{m,config.algoVald});
                     record.pose{ex,v}(t,:,m) = pose;
                 end
             end % End of 'for t'
@@ -137,8 +143,6 @@ else
     load(config.matFile);
     config.matFile   = backup.matFile;
     config.csvFile   = backup.csvFile;
-    algoSelect = 1:size(config.algorithm,1);
-    algoSelect = algoSelect([config.algorithm{:,2}] == config.dim);
 end % End of 'if config.matLoad'
 
 % Show experimental results %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -151,7 +155,7 @@ end
 for ex = 1:length(variable.value)
     for cr = 1:length(criteria.name)
         for v = 1:length(variable.value{ex})
-            for m = algoSelect
+            for m = config.algoSelM
                 result{ex,cr}(m,v) = feval(criteria.repr{cr}, record.perf{ex,v}(:,cr,m));
             end
         end
@@ -176,7 +180,7 @@ if ~isempty(config.csvFile)
             fprintf(fid, '\n');
 
             % Print results of each method
-            for m = algoSelect
+            for m = config.algoSelM
                 fprintf(fid, '%s', config.algorithm{m,config.algoName});
                 for v = 1:length(variable.value{ex})
                     fprintf(fid, [', ', criteria.format{cr}], result{ex,cr}(m,v));
@@ -199,8 +203,8 @@ for ex = 1:length(variable.value)
             set(gca, 'FontSize', 12);
             box on;
             grid on;
-            for m = algoSelect
-                if (cr == 2) && (config.algorithm{m,7}(end) == 0), continue; end
+            for m = config.algoSelM
+                if (cr == 2) && (config.algorithm{m,config.algoVald}(end) == 0), continue; end
                 plot(variable.value{ex}, result{ex,cr}(m,:), ...
                     config.algorithm{m,config.algoLine}, 'LineWidth', 2, 'MarkerSize', 10);
                 isDrawn = [isDrawn, m];
