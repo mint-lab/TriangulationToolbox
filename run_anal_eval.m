@@ -3,7 +3,7 @@ clear all;
 
 disp('== Detailed Analysis of Localization Evaluatioin ==');
 
-target.file = './result_eval_landmark(3d)/run_eval_landmark.mat';
+target.file = './result_eval_landmark(2d)/run_eval_landmark.mat';
 target.ex = 1;      % Index of experiment to analyze in detail
 target.v = 6;       % Index of variable to analyze in detail
 target.binN = 50;   % The number of bins for histogram
@@ -29,6 +29,12 @@ hold on;
         plot3(record.pose{target.ex,target.v}(:,1,m), record.pose{target.ex,target.v}(:,2,m), ...
             record.pose{target.ex,target.v}(:,3,m), [config.algorithm{m,config.algoLine}(1), '.'])
     end
+    truth = config.pose(1:3);
+    line(get(gca, 'XLim'), [truth(2), truth(2)], [truth(3), truth(3)], 'Color', 'y', 'LineWidth', 1);
+    line([truth(1), truth(1)], get(gca, 'YLim'), [truth(3), truth(3)], 'Color', 'y', 'LineWidth', 1);
+    line([truth(1), truth(1)], [truth(2), truth(2)], get(gca, 'ZLim'), 'Color', 'y', 'LineWidth', 1);
+    title(sprintf(['Distribution of Estimated Position: %s at ', variable.format{target.ex}], ...
+        variable.name{target.ex}, variable.value{target.ex}(target.v)), 'FontSize', 12);
     xlabel('X [m]', 'FontSize', 12);
     ylabel('Y [m]', 'FontSize', 12);
     zlabel('Z [m]', 'FontSize', 12);
@@ -51,6 +57,7 @@ for cr = 1:2
             end
             plot(bins, cdfN, config.algorithm{m,config.algoLine}, 'LineWidth', 2, 'MarkerSize', 2);
         end
+        axis([0, 3*med, 0, 1]);
         title(sprintf(['Cumulative Histogram: %s at ', variable.format{target.ex}], ...
             variable.name{target.ex}, variable.value{target.ex}(target.v)), 'FontSize', 12);
         xlabel(criteria.name{cr}, 'FontSize', 12);
