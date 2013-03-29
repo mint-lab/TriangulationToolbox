@@ -4,18 +4,18 @@ clear all;
 disp('== Localization Evaluatioin (with Random Landmarks) for Triangulation Toolbox ==');
 
 % Configure experiments %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-config.dim       = 2;                               % Dimension of localization (2 or 3)
-config.observe   = [];                              % An observation function to apply noise
-                                                    %  (c.f. empty []: noise is applied to the map)
-config.space     = [100, 100, 50];                  % Size of the operating space
-config.pool      = 10000;                           % The number of pre-generated landmarks (> 5)
-config.trial     = 2000;                            % The number of trials (> 1)
-config.pose      = [50, 50, 0, 0, 0, pi / 4];       % Pose of the target object
-config.fixNoise  = 0.1;                             % Standard deviation of noise (default)
-config.fixN      = 4;                               % The number of landmarks for localization (default)
-config.varNoise  = 0:0.1:1.0;                       % Range of std. of noise
-config.varN      = [2, 3, 4, 6, 8, 16, 32, 64, 128];% Range of the number of landmarks for localization
-config.algorithm = ...                              % Description of localization algorithms
+config.dim       = 2;                       % Dimension of localization (2 or 3)
+config.observe   = [];                      % An observation function to apply noise
+                                            %  (e.g. @observe_bearing / c.f. empty []: noise is applied to the map)
+config.space     = [100, 100, 50];          % Size of the operating space
+config.pool      = 10000;                   % The number of pre-generated landmarks (> 5)
+config.trial     = 2000;                    % The number of trials (> 1)
+config.pose      = [50, 50, 0, 0, 0, pi/4]; % Pose of the target object
+config.fixNoise  = 0.1;                     % Standard deviation of noise (default)
+config.fixN      = 4;                       % The number of landmarks for localization (default)
+config.varNoise  = 0:0.1:1;                 % Range of std. of noise
+config.varN      = [2, 3, 4, 6, 8, 16, 32, 64, 128]; % Range of the number of landmarks for localization
+config.algorithm = ...                      % Description of localization algorithms
 {                                                                                                       ...
   % #, Dim, Name,         Local. Function,      Observation Function,     Min. N, Valid,    Line Sytle; ...
     1,  2,  'Sayed05-2D', @localize2d_sayed05,  @observe_distance,             3, [1 1 0 0 0 0], 'kx-'; ...
@@ -51,7 +51,15 @@ config.algoMinN  = 6;
 config.algoVald  = 7;
 config.algoLine  = 8;
 config.algoSelM  = 1:size(config.algorithm,1);
-config.algoSelM  = config.algoSelM([config.algorithm{:,config.algoDims}] == config.dim);
+choose = [config.algorithm{:,config.algoDims}] == config.dim;
+if ~isempty(config.observe)
+    for m = 1:length(choose)
+        if choose(m) == 1 && ~isequal(config.algorithm{m,config.algoObsv}, config.observe)
+            choose(m) = 0;
+        end
+    end
+end
+config.algoSelM = config.algoSelM(choose);
 if ~config.matLoad
     % 1. Generate features randomly
     if config.pool <= 5
@@ -90,7 +98,9 @@ if ~config.matLoad
                 end
                 cleanMap = pool(sample == 1,:);
                 noisyMap = cleanMap;
-                noisyMap(:,1:config.dim) = apply_noise_gauss(cleanMap(:,1:config.dim), param(1));
+                if isempty(config.observe)
+                    noisyMap(:,1:config.dim) = apply_noise_gauss(cleanMap(:,1:config.dim), param(1));
+                end
 
                 for m = config.algoSelM                              % Loop for 'm'ethods
                     % Check the operating condition
@@ -100,9 +110,12 @@ if ~config.matLoad
                     end
 
                     % Estimate pose
-                    obsData = feval(config.algorithm{m,config.algoObsv}, noisyMap, config.pose);
+                    obsData = feval(config.algorithm{m,config.algoObsv}, cleanMap, config.pose);
+                    if isequal(config.algorithm{m,config.algoObsv}, config.observe)
+                        obsData = apply_noise_gauss(obsData, param(1));
+                    end
                     tic;
-                    [pose, valid] = feval(config.algorithm{m,config.algoEstm}, obsData, cleanMap);
+                    [pose, valid] = feval(config.algorithm{m,config.algoEstm}, obsData, noisyMap);
                     elapse = toc * 1000; % [sec] to [msec]
                     if size(pose,1) > 1  % When there are multiple solutions
                         bestIndex = 1;
