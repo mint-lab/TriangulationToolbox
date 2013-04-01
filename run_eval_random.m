@@ -32,8 +32,9 @@ config.matLoad   = false;                   % Use saved MAT-file without experim
 config.matFile   = 'run_eval_random.mat';   % Filename for loading and saving MAT-file
 config.csvFile   = 'run_eval_random.csv';   % Filename for writing CSV-file
 
-variable.name    = {'Magnitude of Noise', 'Number of Landmarks'};   % Name of independent variables
+variable.name    = {'Magnitude of Noise [m]', 'Number of Landmarks'}; % Name of independent variables
 variable.value   = {config.varNoise, config.varN};                  % Range of independent variables
+variable.repr    = {config.varNoise, config.varN};                  % Range of independent variables (in graphs and table)
 variable.format  = {'%.1f', '%d'};                                  % Format for printing text
 
 criteria.name    = {'Position Error [m]', 'Orientation Error [deg]', ...
@@ -188,7 +189,7 @@ if ~isempty(config.csvFile)
             fprintf(fid, '\n%d) %s\n', cr, criteria.name{cr});
             fprintf(fid, '%s', variable.name{ex});
             for v = 1:length(variable.value{ex})
-                fprintf(fid, ', %.1f', variable.value{ex}(v));
+                fprintf(fid, ', %.1f', variable.repr{ex}(v));
             end
             fprintf(fid, '\n');
 
@@ -218,7 +219,7 @@ for ex = 1:length(variable.value)
             grid on;
             for m = config.algoSelM
                 if (cr == 2) && (config.algorithm{m,config.algoVald}(end) == 0), continue; end
-                plot(variable.value{ex}, result{ex,cr}(m,:), ...
+                plot(variable.repr{ex}, result{ex,cr}(m,:), ...
                     config.algorithm{m,config.algoLine}, 'LineWidth', 2, 'MarkerSize', 10);
                 isDrawn = [isDrawn, m];
             end

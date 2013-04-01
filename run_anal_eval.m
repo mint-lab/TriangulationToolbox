@@ -3,7 +3,7 @@ clear all;
 
 disp('== Detailed Analysis of Localization Evaluatioin ==');
 
-target.file = './result_eval_random(map,2d)/run_eval_random.mat';
+target.file = 'result_eval_random(map,2d)/run_eval_random.mat';
 target.ex = 1;      % Index of experiment to analyze in detail
 target.v = 6;       % Index of variable to analyze in detail
 target.binN = 50;   % The number of bins for histogram
