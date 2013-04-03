@@ -6,7 +6,7 @@ disp('== Localization Evaluatioin (with Roh'' Angulation Dataset) for Triangulat
 % Configure experiments %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 config.mapFile = 'dataset_roh/landmark.csv'; % A map file
 config.dataFile = ... % A list of data files
-{                                                                  ...
+{                                  ...
     'dataset_roh/(X1.5,Y1.5).csv'; ...
     'dataset_roh/(X1.5,Y3.0).csv'; ...
     'dataset_roh/(X1.5,Y4.5).csv'; ...
@@ -56,6 +56,7 @@ config.algoSelM = 1:size(config.algorithm,1);
 
 % 1. Read the map file
 map = load(config.mapFile);
+map = [map, zeros(size(map,1),4)];
 
 record.perf{1,1} = [];
 record.pose{1,1} = [];
