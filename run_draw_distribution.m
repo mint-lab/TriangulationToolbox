@@ -1,7 +1,7 @@
 close all;
 clear all;
 
-disp('== Detailed Analysis for Triangulation Toolbox ==');
+disp('== Position/Error Distribution for Triangulation Toolbox ==');
 
 target.file = 'run_eval_random.mat';
 target.ex = 1;      % Index of experiment to analyze in detail
@@ -11,7 +11,7 @@ target.binN = 50;   % The number of bins for histogram
 % Load the target evaluation file
 load(target.file);
 
-% Draw distribution of estimated position
+% Draw distribution of estimated position with the ground truth
 figure('Color', [1, 1, 1]);
 hold on;
     set(gca, 'FontSize', 12);
@@ -33,7 +33,9 @@ hold on;
     legend(config.algorithm(config.algoSelM,config.algoName), 'FontSize', 12);
 hold off;
 
-% Draw error cumulative histogram (similar to cdf)
+% Draw distribution of position/orientation error (CDF)
+xtext = { 'distance [m]', 'angle [deg]' };
+ytext = { 'P(position error < distance)', 'P(orientation error < angle)' };
 for cr = 1:2
     med = median(median(record.perf{target.ex,target.v}(:,cr,config.algoSelM)));
     if med == 0, med = 1; end
@@ -55,8 +57,8 @@ for cr = 1:2
             isDrawn = [isDrawn, m];
         end
         axis([0, 3*med, 0, 1]);
-        xlabel(criteria.name{cr}, 'FontSize', 12);
-        ylabel('Cumulative Occurence Rate', 'FontSize', 12);
+        xlabel(xtext{cr}, 'FontSize', 12);
+        ylabel(ytext{cr}, 'FontSize', 12);
         legend(config.algorithm(isDrawn,config.algoName), 'FontSize', 12);
     hold off;
 end

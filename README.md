@@ -11,8 +11,8 @@ _Triangulation Toolbox_ is an open-source project to share algorithms, datasets,
  1. Unzip the downloaded file, _Triangulation-Toolbox-master.zip_, on your desired directory
  1. Execute `run_test_aux` or `run_test_localize` to check its working in MATLAB
 
-### Files
-Use `help` command to check input/output of each function, for example, `help observe_distance`.
+### File Description
+Use `help` command to know each function in detail, for example, `help observe_distance`.
  * __2D Localization Algorithms__: `localize2d_*.m`
  * __3D Localization Algorithms__: `localize3d_*.m`
  * __Observation Functions__: [`observe_distance.m`][], [`observe_bearing.m`][], [`observe_displacement.m`][], [`observe_pose.m`][]
@@ -26,9 +26,9 @@ Use `help` command to check input/output of each function, for example, `help ob
  * __Scripts for Performance Evaluation__
   * Benchmark with Random Landmarks ([Map Uncertainty][], [Measurement Noise][]): [`run_eval_random.m`][]
   * Benchmark with Roh's Angulation Dataset: [`run_eval_roh.m`][]
-  * [Cumulative Histogram Graphs][] for Each Benchmark: [`run_anal_record.m`][]
+  * [Position/Error Distribution Graphs][] for Each Benchmark: [`run_draw_distribution.m`][]
  * __Scripts for Unit-test__: [`run_test_aux.m`][], [`run_test_localize.m`][]
- * __Datasets__
+ * __Real Datasets__
   * Roh's Angulation Dataset: [`dataset_roh`][]
 
 [`localize3d_thomas05`]:https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/localize3d_thomas05.m
@@ -50,13 +50,13 @@ Use `help` command to check input/output of each function, for example, `help ob
 [`run_example.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/run_example.m
 [`run_eval_random.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/run_eval_random.m
 [`run_eval_roh.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/run_eval_roh.m
-[`run_anal_record.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/run_anal_record.m
+[`run_draw_distribution.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/run_draw_distribution.m
 [`run_test_aux.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/run_test_aux.m
 [`run_test_localize.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/run_test_localize.m
 [`dataset_roh`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/dataset_roh
 [Map Uncertainty]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/benchmark_result/run_eval_random(map%2C2d)/ex1_position.png
 [Measurement Noise]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/benchmark_result/run_eval_random(bearing%2C2d)/ex1_position.png
-[Cumulative Histogram Graphs]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/benchmark_result/run_eval_random(map%2C2d)/ex1_06_position.png
+[Position/Error Distribution Graphs]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/benchmark_result/run_eval_random(map%2C2d)/ex1_06_position.png
 
 ### Examples
 ```matlab
@@ -69,7 +69,7 @@ trueMap =                                      ...
 ];
 truePose = [3, 2, 0, 0, 0, pi / 9];
 obsData = observe_distance(trueMap, truePose);  % Simulate observation
-pose = localize2d_sayed05(obsData, trueMap);    % Estimate position
+estPose = localize2d_sayed05(obsData, trueMap); % Estimate position
 ```
 See [`run_example.m`][] for more complex example with visualization.
 
