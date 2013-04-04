@@ -24,7 +24,7 @@ function [obsData, obsMap] = observe_pose(map, pose, visibleRate)
 %   Note: The measured relative pose, OBS_DATA, is represented by Mx6 matrix whose
 %       format is exactly same with POSE and MAP.
 %
-%   Examples:
+%   Example:
 %       map  = [ 0, 0, 5, 0, 0, 0; ...
 %                5, 0, 5, 0, 0, 0; ...
 %                5, 5, 5, 0, 0, 0 ];

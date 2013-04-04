@@ -9,7 +9,7 @@ function save_figure(h, filename)
 %       file format. (e.g. 'output.jpg') Please refer to the command, SAVEAS, to
 %       check the available file formats.
 %
-%   Examples:
+%   Example:
 %       save_figure(gcf, 'output.pdf')
 %       save_figure(gcf, 'output.png');
 %

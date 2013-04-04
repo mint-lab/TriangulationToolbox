@@ -5,7 +5,7 @@ function [out] = trim_rad(in)
 %       (matrix) IN : The given angle [rad]
 %       (matrix) OUT: The trimmed angle [rad]
 %
-%   Examples:
+%   Example:
 %       t = trim_rad(2 * pi)
 %       t = trim_rad(0 : pi/6 : 4*pi)
 

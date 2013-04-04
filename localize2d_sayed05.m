@@ -14,12 +14,12 @@ function [pose, valid] = localize2d_sayed05(data, map)
 %       element of POSE. Since this algorithm estimates 2D position, the expected
 %       VALID is [true, true, false, false, false, false].
 %
-%   References:
+%   Reference:
 %       [1] A. H. Sayed et al., Network-based Wireless Location,
 %           IEEE Signal Processing Magazine, Vol. 24, No. 4, 2005
 %           URL: http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=1458275
 %
-%   Examples:
+%   Example:
 %       N = 3;
 %       map = [10 * rand(N,2), zeros(N,4)]; % Random 2D landmark map
 %       data = 10 * rand(N,1); % Random measurement

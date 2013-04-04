@@ -13,7 +13,7 @@ function [rad] = error_orientation(p, q)
 %       of an object is described by x-axis in its local coordinate, error between
 %       two orientation comes from angular difference of two x axes.
 %
-%   Examples:
+%   Example:
 %       rad = error_orientation([0, 0, 0], [0, 0, pi])
 
 v_p = tran_rad2rot(p) * [1; 0; 0];

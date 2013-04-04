@@ -24,7 +24,7 @@ function [obsData, obsMap] = observe_displacement(map, pose, visibleRate)
 %   Note: The measured displacement, OBS_DATA, is represented by Mx3 matrix whose i-th row
 %       is relative position of i-th landmark in OBS_MAP with respect to the given pose, POSE.
 %
-%   Examples:
+%   Example:
 %       map  = [ 0, 0, 5, 0, 0, 0; ...
 %                5, 0, 5, 0, 0, 0; ...
 %                5, 5, 5, 0, 0, 0 ];

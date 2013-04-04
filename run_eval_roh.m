@@ -29,7 +29,7 @@ config.pose = ... % A list of ground truth
     4.5, 3.0, 0, 0, 0, pi/2; ...
     4.5, 4.5, 0, 0, 0, pi/2; ...
 ];
-config.algorithm = ...  % Description of localization algorithms
+config.algorithm = ... % Description of localization algorithms
 {                                                                                                       ...
   % #, Dim, Name,         Local. Function,      Observation Function,     Min. N, Valid,    Line Sytle; ...
     1,  2,  'Betke97',    @localize2d_betke97,  @observe_bearing,              3, [1 1 0 0 0 1], 'gd-'; ...
@@ -42,7 +42,7 @@ criteria.name = {'Position Error [m]', 'Orientation Error [deg]', ...
                  'Computing Time [msec]', 'Number of Failures'}; % Name of evaluation criteria
 criteria.repr = {@median, @median, @median, @sum}; % Functions for calculating representive values
                                                    %  (e.g. mean, median, std, and sum)
-criteria.format = {'%.6f', '%.3f', '%.6f', '%d'}; % Format for printing text
+criteria.format = {'%.6f', '%.3f', '%.6f', '%d'};  % Format for printing text
 
 % Perform experiments %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 config.algoDims = 2;
@@ -87,4 +87,4 @@ end
 % 4. Save experimental results
 save(config.matFile, 'config', 'criteria', 'record');
 
-% To visualize the result, please use the script, 'run_anal_record', with 'target.ex = 1' and 'target.v = 1'.
+% To visualize the result, please use the script, 'run_draw_distribution', with 'target.ex = 1' and 'target.v = 1'.

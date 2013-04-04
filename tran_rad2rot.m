@@ -8,12 +8,12 @@ function [R] = tran_rad2rot(radian)
 %   Note: Orientation, RADIAN, is represented by 1x3 matrix whose elements are
 %       rotation angle with respect to x, y, and z axes, respectively.
 %
-%   References:
+%   Reference:
 %       [1] S.M. LaValle, Planning Algorithm, Cambridge, 2006,
 %           URL: http://planning.cs.uiuc.edu/node102.html
 %           URL: http://planning.cs.uiuc.edu/node103.html
 %
-%   Examples:
+%   Example:
 %       R = tran_rad2rot([pi/3, pi/4, pi/6])
 %
 %   See also tran_rot2rad.

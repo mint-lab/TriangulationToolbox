@@ -10,7 +10,7 @@ function [result] = test_is_near(a, b, tol, verbose)
 %
 %   Note: Two values, A and B, should be same size.
 %
-%   Examples:
+%   Example:
 %       t = test_is_near(4.17, 4.19, 0.1)
 %       t = test_is_near(pi, pi + eps)
 %       t = test_is_near([3, 29], [3 + eps, 29 - eps])

@@ -8,7 +8,7 @@ function [d] = error_position(p, q)
 %
 %   Note: Two vectors, P and Q, should be same size.
 %
-%   Examples:
+%   Example:
 %       p = [82; 3; 29];
 %       q = [84; 10; 18];
 %       d = error_position(p, q)

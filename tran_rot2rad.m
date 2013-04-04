@@ -10,12 +10,12 @@ function [radian] = tran_rot2rad(R)
 %
 %   Note: R(1,1) and R(3,3) should not be zero due to singularity.
 %
-%   References:
+%   Reference:
 %       [1] S.M. LaValle, Planning Algorithm, Cambridge, 2006,
 %           URL: http://planning.cs.uiuc.edu/node102.html
 %           URL: http://planning.cs.uiuc.edu/node103.html
 %
-%   Examples:
+%   Example:
 %       R = tran_rad2rot([pi/6, pi/6, pi/6]);
 %       angle = tran_rot2rad(R)
 %

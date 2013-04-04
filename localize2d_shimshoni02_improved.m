@@ -18,12 +18,12 @@ function [pose, valid] = localize2d_shimshoni02_improved(data, map)
 %   Note: This implementation is based on Shimshoni's algebraic approach with the first
 %       and second improvements, bounded variance and scale data.
 %
-%   References:
+%   Reference:
 %       [1] I. Shimshoni, On Mobile Robot Localization from Landmark Bearings,
 %           IEEE Transactions on Robotics and Automation, Vol. 18, No. 6, 2002
 %           URL: http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=1159015
 %
-%   Examples:
+%   Example:
 %       N = 3;
 %       map = [10 * rand(N,2), zeros(N,4)]; % Random 2D landmark map
 %       data = [2 * pi * rand(N,1) - pi, zeros(N,1)]; % Random measurement

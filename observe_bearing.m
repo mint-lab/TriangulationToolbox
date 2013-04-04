@@ -5,7 +5,7 @@ function [obsData, obsMap] = observe_bearing(map, pose, visibleRate)
 %       (matrix) MAP         : A landmark map (Nx6 matrix)
 %       (matrix) POSE        : Pose of the target object (1x6 matrix)
 %       (scalar) VISIBLE_RATE: Visible probability of landmarks (default: 1)
-%       (matrix) OBS_DATA    : The measured displacement from POSE to landmarks (Mx2 matrix)
+%       (matrix) OBS_DATA    : The measured bearing from POSE to landmarks (Mx2 matrix)
 %       (matrix) OBS_MAP     : The landmark map of measured landmarks (Mx6 matrix)
 %
 %   Note: Pose of an object, POSE, is represented by 1x6 vector whose first three

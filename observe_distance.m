@@ -21,7 +21,7 @@ function [obsData, obsMap] = observe_distance(map, pose, visibleRate)
 %       If there is no visible landmark, OBS_DATA and OBS_MAP will be an empty matrix.
 %       Please use the command, ISEMPTY, to identify an empty matrix.
 %
-%   Examples:
+%   Example:
 %       map  = [ 0, 0, 5, 0, 0, 0; ...
 %                5, 0, 5, 0, 0, 0; ...
 %                5, 5, 5, 0, 0, 0 ];

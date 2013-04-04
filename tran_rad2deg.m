@@ -5,7 +5,7 @@ function [degree] = tran_rad2deg(radian)
 %       (matrix) RADIAN: The given angle [rad]
 %       (matrix) DEGREE: The transformed angle [deg]
 %
-%   Examples:
+%   Example:
 %       t = tran_rad2deg(pi / 6)
 %       t = tran_rad2deg(pi / 3)
 %

@@ -19,15 +19,15 @@ function [pose, valid] = localize3d_thomas05(data, map)
 %       exactly three, this algorithm may return two sets of POSE and VALID due to ambiguity.
 %       If N is more than three, this algorithm uses 4-th measurement to resolve ambiguity.
 %
-%   Note: This implementation is slightly modified from Thomas's original code once available at
-%       his homepage, http://www-iri.upc.es/people/~thomas.
+%   Note: This implementation is slightly modified from Thomas's original code available at
+%       his homepage, http://www.iri.upc.edu/people/thomas/.
 %
-%   References:
+%   Reference:
 %       [1] F. Thomas and L. Ros, Revisiting Trilateration for Robot Localization,
 %           IEEE Transactions on Robotics, Vol. 21, No. 1, 2005
 %           URL: http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=1391018
 %
-%   Examples:
+%   Example:
 %       N = 4;
 %       map = [10 * rand(N,3), zeros(N,3)]; % Random 2D landmark map
 %       data = 10 * rand(N,1); % Random measurement

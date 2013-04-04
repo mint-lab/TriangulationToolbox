@@ -18,12 +18,12 @@ function [pose, valid] = localize2d_se05(data, map)
 %   Note: This implementation is extended from Se et al. [1], so it can take into account
 %       more than two measurements in lease-squares sense.
 %
-%   References:
+%   Reference:
 %       [1] S. Se et al., Vision-Based Global Localization and Mapping for Mobile Robots,
 %           IEEE Transactions on Robotics, Vol. 21, No. 3, 2005
 %           URL: http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=1435480
 %
-%   Examples:
+%   Example:
 %       N = 2;
 %       map = [10 * rand(N,2), zeros(N,4)]; % Random 2D landmark map
 %       data = [10 * rand(N,2), zeros(N,1)]; % Random measurement

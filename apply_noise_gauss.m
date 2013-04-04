@@ -13,7 +13,7 @@ function [out] = apply_noise_gauss(in, stdev)
 %       as isotropic, STDEV * eye(M,M). Similarly, 1xM standard deviation, STDEV,
 %       is interpreted as diagonal, diag(STDEV).
 %
-%   Examples:
+%   Example:
 %       in = zeros(100, 2);
 %       out = apply_noise_gauss(in, 3)
 %       out = apply_noise_gauss(in, [1, 2])

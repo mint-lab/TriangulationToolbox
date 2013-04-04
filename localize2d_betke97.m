@@ -15,12 +15,12 @@ function [pose, valid] = localize2d_betke97(data, map)
 %       element of POSE. Since this algorithm estimates 2D position and orientation,
 %       the expected VALID is [true, true, false, false, false, true].
 %
-%   References:
+%   Reference:
 %       [1] M. Betke and L. Gurvits, Mobile Robot Localization using Landmarks,
 %           IEEE Transactions on Robotics and Automation, Vol. 13, No. 2, 1997
 %           URL: http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=563647
 %
-%   Examples:
+%   Example:
 %       N = 3;
 %       map = [10 * rand(N,2), zeros(N,4)]; % Random 2D landmark map
 %       data = [2 * pi * rand(N,1) - pi, zeros(N,1)]; % Random measurement
