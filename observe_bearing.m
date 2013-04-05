@@ -54,5 +54,5 @@ if obsNum > 0
     delta = delta * tran_rad2rot(pose(4:6));      % a = R' * b --> a' = b' * R
     r = sqrt(delta(:,1).^2 + delta(:,2).^2 + delta(:,3).^2);
     obsData(:,1) = atan2(delta(:,2), delta(:,1)); % Calculate azimuthal angle
-    obsData(:,2) = acos(delta(:,3) ./ r);         % Calculate polar angle
+    obsData(:,2) = asin(delta(:,3) ./ r);         % Calculate polar angle
 end
