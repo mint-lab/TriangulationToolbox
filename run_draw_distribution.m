@@ -3,11 +3,13 @@ clear all;
 
 disp('== Position/Error Distribution for Triangulation Toolbox ==');
 
+% Configure the drawing target %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 target.file = 'run_eval_random.mat';
 target.ex = 1;      % Index of experiment to analyze in detail
 target.v = 6;       % Index of variable to analyze in detail
 target.binN = 50;   % The number of bins for histogram
 
+% Draw distributions (position, position error, orientation error) %%%%%%%%%%%%
 % Load the target evaluation file
 load(target.file);
 

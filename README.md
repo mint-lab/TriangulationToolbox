@@ -21,7 +21,6 @@ Use `help` command to know each function in detail, for example, `help observe_d
  * __Utility Functions__
   * Unit-test: [`test_is_true.m`][], [`test_is_near.m`][]
   * Angular Conversions: [`tran_rad2deg.m`][], [`tran_deg2rad.m`][], [`tran_rad2rot.m`][], [`tran_rot2rad.m`][], [`trim_rad.m`][]
-  * Miscellaneous: [`save_figure.m`][]
  * __Scripts for Examples__: [`run_example.m`][]
  * __Scripts for Performance Evaluation__
   * Benchmark with Random Landmarks ([Map Uncertainty][], [Measurement Noise][]): [`run_eval_random.m`][]
@@ -31,7 +30,7 @@ Use `help` command to know each function in detail, for example, `help observe_d
  * __Real Datasets__
   * Roh's Angulation Dataset: [`dataset_roh`][]
 
-[`localize3d_thomas05`]:https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/localize3d_thomas05.m
+[`localize3d_thomas05.m`]:https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/localize3d_thomas05.m
 [`observe_distance.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/observe_distance.m
 [`observe_bearing.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/observe_bearing.m
 [`observe_displacement.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/observe_displacement.m
@@ -46,7 +45,6 @@ Use `help` command to know each function in detail, for example, `help observe_d
 [`tran_rad2rot.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/tran_rad2rot.m
 [`tran_rot2rad.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/tran_rot2rad.m
 [`trim_rad.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/trim_rad.m
-[`save_figure.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/save_figure.m
 [`run_example.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/run_example.m
 [`run_eval_random.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/run_eval_random.m
 [`run_eval_roh.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/run_eval_roh.m
@@ -78,7 +76,7 @@ See [`run_example.m`][] for more complex example with visualization.
 
 ### Acknowlegement
  We appreciate the following contributors:
- * [Prof. Federico Thomas](http://www.iri.upc.edu/people/thomas/) shared his trilateration code at his homepage. ([See the algorithm][`localize3d_thomas05`])
+ * [Prof. Federico Thomas](http://www.iri.upc.edu/people/thomas/) shared his trilateration code at his homepage. ([See the algorithm][`localize3d_thomas05.m`])
  * Hyunchul Roh provided his angulation dataset. ([See the dataset][`dataset_roh`])
 
 ### Contact

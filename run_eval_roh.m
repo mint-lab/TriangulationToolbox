@@ -82,6 +82,7 @@ for d = 1:size(config.dataFile,1)
         record.perf{1,1} = [record.perf{1,1}; set.perf];
         record.pose{1,1} = [record.pose{1,1}; set.pose];
     end
+    disp([' * Experiment on dataset #', num2str(d), ' is complete.']);
 end
 
 % 4. Save experimental results
