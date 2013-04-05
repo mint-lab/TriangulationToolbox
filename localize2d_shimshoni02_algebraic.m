@@ -39,6 +39,11 @@ if size(data,2) ~= 2
 end
 
 % Calculate pose using algebraic method (Section II.C)
+if sum(data(:,1) == 0) > 1 % A degenerate case of cotangent
+    pose = zeros(1,6);
+    valid = false * ones(1,6);
+    return;
+end
 A =                                        ...
 [                                          ...
     map(:,1) - map(:,2) .* cot(data(:,1)), ...
