@@ -39,7 +39,7 @@ if size(data,2) ~= 2
 end
 
 % Calculate pose using algebraic method (Section II.C)
-if sum(data(:,1) == 0) > 1 % A degenerate case of cotangent
+if sum(data(:,1) == 0) > 0 % A degenerate case of cotangent
     pose = zeros(1,6);
     valid = false * ones(1,6);
     return;
