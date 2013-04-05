@@ -136,7 +136,3 @@ hold on;
     axis([-10, 10, -10, 10]);
     box on;
 hold off;
-
-% save_figure
-disp('==== save_figure ====');
-save_figure(gcf, 'run_test_aux.pdf');
