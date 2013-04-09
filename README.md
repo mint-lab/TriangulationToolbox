@@ -61,7 +61,7 @@ Use `help` command to know each function in detail, for example, `help observe_d
 [Measurement Noise]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/benchmark_result/run_eval_random(bearing%2C2d)/ex1_position.png
 [Position/Error Distribution Graphs]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/benchmark_result/run_eval_random(map%2C2d)/ex1_06_position.png
 
-### Examples
+### Example
 ```matlab
 trueMap =                                      ...
 [                                              ...
@@ -79,10 +79,11 @@ See [`run_example.m`][] for more complex example with visualization.
 ### Reference
  * Sunglok Choi, __Triangulation Toolbox: Open-source Algorithms and Benchmark for Landmark-based Localization__, under review, 2013
 
-### Acknowlegement
+### Acknowledgement
  We appreciate the following contributors:
  * [Prof. Federico Thomas](http://www.iri.upc.edu/people/thomas/) shared his trilateration code at his homepage. ([See the algorithm][`localize3d_thomas05.m`])
  * Hyunchul Roh provided his angulation dataset. ([See the dataset][`dataset_roh`])
+ * [Dr. Keith Leung](http://asrl.utias.utoronto.ca/~kykleung), Yoni Halpern, [Prof. Tim Barfoot](http://asrl.utias.utoronto.ca/~tdb), and [Prof. Hugh Liu](http://www.flight.utias.utoronto.ca/fsc/index.php?id=204) shared their MRCLAM dataset. ([See the dataset][`dataset_mrclam`])
 
 ### Contact
  * [Sunglok Choi](http://sites.google.com/site/sunglok/) (sunglok AT hanmail DOT net)
