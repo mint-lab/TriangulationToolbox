@@ -5,9 +5,10 @@ disp('== Position/Error Distribution for Triangulation Toolbox ==');
 
 % Configure the drawing target %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 target.file = 'run_eval_random.mat';
-target.ex = 1;      % Index of experiment to analyze in detail
-target.v = 6;       % Index of variable to analyze in detail
-target.binN = 50;   % The number of bins for histogram
+target.ex = 1;          % Index of experiment to analyze in detail
+target.v = 6;           % Index of variable to analyze in detail
+histogram.scale = 6;    % The scale of histogram (width = scale * median)
+histogram.bin = 50;     % The number of bins for histogram
 
 % Draw distributions (position, position error, orientation error) %%%%%%%%%%%%
 % Load the target evaluation file
@@ -41,7 +42,7 @@ ytext = { 'P(position error < distance)', 'P(orientation error < angle)' };
 for cr = 1:2
     med = median(median(record.perf{target.ex,target.v}(:,cr,config.algoSelM)));
     if med == 0, med = 1; end
-    bins = 0:(3*med/target.binN):3*med;
+    bins = 0:(histogram.scale*med/histogram.bin):histogram.scale*med;
     isDrawn = [];
     figure('Color', [1, 1, 1]);
     hold on;
@@ -58,7 +59,7 @@ for cr = 1:2
             plot(bins, cdfN, config.algorithm{m,config.algoLine}, 'LineWidth', 2, 'MarkerSize', 2);
             isDrawn = [isDrawn, m];
         end
-        axis([0, 3*med, 0, 1]);
+        axis([0, histogram.scale*med, 0, 1]);
         xlabel(xtext{cr}, 'FontSize', 12);
         ylabel(ytext{cr}, 'FontSize', 12);
         legend(config.algorithm(isDrawn,config.algoName), 'FontSize', 12);

@@ -158,45 +158,45 @@ maxv = threshold.elapse;
 if isinf(maxv)
     maxv = histogram.scale * median(elapse_time);
 end
-range = 0:maxv/histogram.bin:maxv;
-count = histc(elapsedTime(:,2), range);
+bins = 0:maxv/histogram.bin:maxv;
+count = histc(elapsedTime(:,2), bins);
 figure('Color', [1, 1, 1]);
 hold on;
     set(gca, 'FontSize', 12);
     set(gca, 'YTick', []);
     box on;
     grid on;
-    bar(range, count, 'style', 'histc');
+    bar(bins, count, 'style', 'histc');
     xlabel('Elapsed Time', 'FontSize', 12);
     ylabel('Frequency', 'FontSize', 12);
 hold off;
 
 % Draw distribution of distance error
 medv = median(abs(errorDistance));
-range = -histogram.scale*medv:2*histogram.scale*medv/histogram.bin:histogram.scale*medv;
-count = hist(errorDistance, range);
+bins = -histogram.scale*medv:2*histogram.scale*medv/histogram.bin:histogram.scale*medv;
+count = hist(errorDistance, bins);
 figure('Color', [1, 1, 1]);
 hold on;
     set(gca, 'FontSize', 12);
     set(gca, 'YTick', []);
     box on;
     grid on;
-    bar(range, count, 'style', 'hist');
+    bar(bins, count, 'style', 'hist');
     xlabel('Distance Error [m]', 'FontSize', 12);
     ylabel('Frequency', 'FontSize', 12);
 hold off;
 
 % Draw distribution bearing error
 medv = median(abs(errorBearing));
-range = -histogram.scale*medv:2*histogram.scale*medv/histogram.bin:histogram.scale*medv;
-count = hist(errorBearing, range);
+bins = -histogram.scale*medv:2*histogram.scale*medv/histogram.bin:histogram.scale*medv;
+count = hist(errorBearing, bins);
 figure('Color', [1, 1, 1]);
 hold on;
     set(gca, 'FontSize', 12);
     set(gca, 'YTick', []);
     box on;
     grid on;
-    bar(tran_rad2deg(range), count, 'style', 'hist');
+    bar(tran_rad2deg(bins), count, 'style', 'hist');
     xlabel('Bearing Error [deg]', 'FontSize', 12);
     ylabel('Frequency', 'FontSize', 12);
 hold off;
