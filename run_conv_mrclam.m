@@ -13,8 +13,6 @@ threshold.elapse = 1;       % The maximum duration [sec] for being stationary st
 threshold.distance = 0.01;  % The minimum translational change [m] for being stationary state
 threshold.rotation = 0.01;  % The minimum rotational change [rad] for being stationary state
 threshold.landmark = 3;     % The minimum number of landmarks
-histogram.scale = 3;        % The scale of histogram, (width = scale * median)
-histogram.bin = 50;         % The number of bins in drawing histogram
 
 % Convert MRCLAM dataset to landmark-based localization %%%%%%%%%%%%%%%%%%%%%%%
 % Read landmarks and their barcode ID
@@ -29,8 +27,6 @@ expNum = 0;
 groundtruth = [];
 measurement = [];
 elapsedTime = [];
-errorDistance = [];
-errorBearing = [];
 for r = 1:dataset.robot_n
     % 1. Read measurements and their true trajectory
     prefix = [dataset.dir, '/Robot', num2str(r), '_'];
@@ -118,10 +114,7 @@ for r = 1:dataset.robot_n
             end
             distance = observe_distance([map, zeros(size(map,1),4)], [pose(1:2), 0, 0, 0, pose(3)]);
             bearing = observe_bearing([map, zeros(size(map,1),4)], [pose(1:2), 0, 0, 0, pose(3)]);
-            diff = sample(:,2:end) - [distance, bearing(:,1)];
-            errorDistance = [errorDistance; diff(:,1)];
-            errorBearing = [errorBearing; diff(:,2)];
-            diff = abs(diff);
+            diff = abs(sample(:,2:end) - [distance, bearing(:,1)]);
             sample = sample((diff(:,1) < outlier.distance) & (diff(:,2) < outlier.rotation),:);
 
             % 5.3. Remove duplicated measurements (select the most recent one)
@@ -152,51 +145,3 @@ disp([' * ', num2str(size(groundtruth,1)), ' subsequences are extracted.']);
 landmark(:,1) = landmark(:,1) - threshold.minId + 1;        % Start index from 1
 measurement(:,2) = measurement(:,2) - threshold.minId + 1;  % Start index from 1
 save(dataset.output, 'landmark', 'groundtruth', 'measurement');
-
-% Draw distribution of elapsed time
-maxv = threshold.elapse;
-if isinf(maxv)
-    maxv = histogram.scale * median(elapse_time);
-end
-bins = 0:maxv/histogram.bin:maxv;
-count = histc(elapsedTime(:,2), bins);
-figure('Color', [1, 1, 1]);
-hold on;
-    set(gca, 'FontSize', 12);
-    set(gca, 'YTick', []);
-    box on;
-    grid on;
-    bar(bins, count, 'style', 'histc');
-    xlabel('Elapsed Time', 'FontSize', 12);
-    ylabel('Frequency', 'FontSize', 12);
-hold off;
-
-% Draw distribution of distance error
-medv = median(abs(errorDistance));
-bins = -histogram.scale*medv:2*histogram.scale*medv/histogram.bin:histogram.scale*medv;
-count = hist(errorDistance, bins);
-figure('Color', [1, 1, 1]);
-hold on;
-    set(gca, 'FontSize', 12);
-    set(gca, 'YTick', []);
-    box on;
-    grid on;
-    bar(bins, count, 'style', 'hist');
-    xlabel('Distance Error [m]', 'FontSize', 12);
-    ylabel('Frequency', 'FontSize', 12);
-hold off;
-
-% Draw distribution bearing error
-medv = median(abs(errorBearing));
-bins = -histogram.scale*medv:2*histogram.scale*medv/histogram.bin:histogram.scale*medv;
-count = hist(errorBearing, bins);
-figure('Color', [1, 1, 1]);
-hold on;
-    set(gca, 'FontSize', 12);
-    set(gca, 'YTick', []);
-    box on;
-    grid on;
-    bar(tran_rad2deg(bins), count, 'style', 'hist');
-    xlabel('Bearing Error [deg]', 'FontSize', 12);
-    ylabel('Frequency', 'FontSize', 12);
-hold off;
