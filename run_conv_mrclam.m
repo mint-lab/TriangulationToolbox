@@ -7,8 +7,8 @@ disp('== MRCLAM Dataset Conversion for Triangulation Toolbox ==');
 dataset.robot_n = 5;
 dataset.dir = 'dataset_mrclam/MRCLAM_Dataset1';
 dataset.output = 'dataset_mrclam/mrclam1.mat';
-outlier.distance = 0.5;     % A threshold for outlier distance [m]
-outlier.rotation = 0.5;     % A threshold for outlier bearing [rad]
+outlier.distance = 0.25;    % A threshold for outlier distance [m]
+outlier.rotation = 0.25;    % A threshold for outlier bearing [rad]
 threshold.elapse = 1;       % The maximum duration [sec] for being stationary state
 threshold.distance = 0.01;  % The minimum translational change [m] for being stationary state
 threshold.rotation = 0.01;  % The minimum rotational change [rad] for being stationary state
