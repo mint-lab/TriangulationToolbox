@@ -12,4 +12,4 @@ The data files, _mrclam?.mat_, contains three variables: _landmark_, _groundtrut
  * _measurement_: experiment ID, observed landmark ID, observed distance, observed bearing (from each robot's true pose to a landmark)
 
 #### Reference
- * [1] Keith Leung, Yoni Halpern, Tim Barfoot, and Hugh Liu, __The UTIAS Multi-Robot Cooperative Localization and Mapping Dataset__, International Journal of Robotics Research, Vol. 30, No. 8, 2011 [Website](http://asrl.utias.utoronto.ca/datasets/mrclam/) [IJRR Online](http://ijr.sagepub.com/content/30/8/969)
+ * [1] K. Leung, Y. Halpern, T. Barfoot, and H. Liu, __The UTIAS Multi-Robot Cooperative Localization and Mapping Dataset__, The International Journal of Robotics Research, Vol. 30, No. 8, 2011 [Website](http://asrl.utias.utoronto.ca/datasets/mrclam/) [IJRR Online](http://ijr.sagepub.com/content/30/8/969)
