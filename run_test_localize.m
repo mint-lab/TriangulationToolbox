@@ -14,17 +14,17 @@ trueMap =                                      ...
 ];
 truePose = [3, 2, 0, 0, 0, pi / 9];
 
-% localize2d_sayed05
-disp('==== localize2d_sayed05 ====');
+% localize2d_sayed05_toa
+disp('==== localize2d_sayed05_toa ====');
 [obsData, obsMap] = observe_distance(trueMap, truePose);
-[pose, valid] = localize2d_sayed05(obsData, obsMap);
+[pose, valid] = localize2d_sayed05_toa(obsData, obsMap);
 test_is_true(valid == [1, 1, 0, 0, 0, 0]);
 test_is_near(pose(valid == true), truePose(valid == true));
 
-% localize2d_se05
-disp('==== localize2d_se05 ====');
-[obsData, obsMap] = observe_displacement(trueMap, truePose);
-[pose, valid] = localize2d_se05(obsData, obsMap);
+% localize2d_betke97
+disp('==== localize2d_betke97 ====');
+[obsData, obsMap] = observe_bearing(trueMap, truePose);
+[pose, valid] = localize2d_betke97(obsData, obsMap);
 test_is_true(valid == [1, 1, 0, 0, 0, 1]);
 test_is_near(pose(valid == true), truePose(valid == true));
 
@@ -42,10 +42,17 @@ disp('==== localize2d_shimshoni02_improved ====');
 test_is_true(valid == [1, 1, 0, 0, 0, 1]);
 test_is_near(pose(valid == true), truePose(valid == true));
 
-% localize2d_betke97
-disp('==== localize2d_betke97 ====');
-[obsData, obsMap] = observe_bearing(trueMap, truePose);
-[pose, valid] = localize2d_betke97(obsData, obsMap);
+% localize2d_se05
+disp('==== localize2d_se05 ====');
+[obsData, obsMap] = observe_displacement(trueMap, truePose);
+[pose, valid] = localize2d_se05(obsData, obsMap);
+test_is_true(valid == [1, 1, 0, 0, 0, 1]);
+test_is_near(pose(valid == true), truePose(valid == true));
+
+% localize2d_sayed05_aoa
+disp('==== localize2d_sayed05_aoa ====');
+[obsData, obsMap] = observe_displacement(trueMap, truePose);
+[pose, valid] = localize2d_sayed05_aoa(obsData, obsMap);
 test_is_true(valid == [1, 1, 0, 0, 0, 1]);
 test_is_near(pose(valid == true), truePose(valid == true));
 
@@ -60,10 +67,10 @@ trueMap =                                      ...
 ];
 truePose = [3, 2, 1, 0, 0, pi / 9];
 
-% localize_sayed05
-disp('==== localize_sayed05 ====');
+% localize_sayed05_toa
+disp('==== localize_sayed05_toa ====');
 [obsData, obsMap] = observe_distance(trueMap, truePose);
-[pose, valid] = localize3d_sayed05(obsData, obsMap);
+[pose, valid] = localize3d_sayed05_toa(obsData, obsMap);
 test_is_true(valid == [1, 1, 1, 0, 0, 0]);
 test_is_near(pose(valid == true), truePose(valid == true));
 
@@ -71,5 +78,7 @@ test_is_near(pose(valid == true), truePose(valid == true));
 disp('==== localize_thomas05 ====');
 [obsData, obsMap] = observe_distance(trueMap, truePose);
 [pose, valid] = localize3d_thomas05(obsData, obsMap);
-test_is_true(valid == [1, 1, 1, 0, 0, 0]);
-test_is_near(pose(valid == true), truePose(valid == true));
+for i = 1:size(pose,1)
+    test_is_true(valid(i,:) == [1, 1, 1, 0, 0, 0]);
+    test_is_near(pose(i,valid(i,:) == true), truePose(valid(i,:) == true));
+end

@@ -1,7 +1,7 @@
-function [pose, valid] = localize2d_sayed05(data, map)
-%LOCALIZE2D_SAYED05  Estimate 2D position using distances measured from landmarks (N >= 3)
+function [pose, valid] = localize2d_sayed05_toa(data, map)
+%LOCALIZE2D_SAYED05_TOA  Estimate 2D position using distances measured from landmarks (N >= 3)
 %
-%   [POSE, VALID] = LOCALIZE2D_SAYED05(DATA, MAP)
+%   [POSE, VALID] = LOCALIZE2D_SAYED05_TOA(DATA, MAP)
 %       (matrix) DATA : The measured distances from landmarks (Nx1 matrix)
 %       (matrix) MAP  : The corresponding landmark map (Nx6 matrix)
 %       (matrix) POSE : The estimated pose (1x6 matrix)
@@ -23,9 +23,9 @@ function [pose, valid] = localize2d_sayed05(data, map)
 %       N = 3;
 %       map = [10 * rand(N,2), zeros(N,4)]; % Random 2D landmark map
 %       data = 10 * rand(N,1); % Random measurement
-%       [pose, valid] = localize2d_sayed05(data, map)
+%       [pose, valid] = localize2d_sayed05_toa(data, map)
 %
-%   See also localize3d_sayed05, localize3d_thomas05.
+%   See also localize3d_sayed05_toa, localize3d_thomas05.
 
 if size(data,1) < 3
     error('DATA has less number of observations!');

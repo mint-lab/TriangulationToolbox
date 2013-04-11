@@ -39,8 +39,8 @@ trueMap =                                      ...
       8,  8,  0,   0,  0,  tran_deg2rad(-180); ...
 ];
 truePose = [3, 2, 0, 0, 0, pi / 9];
-obsData = observe_distance(trueMap, truePose);  % Simulate observation
-estPose = localize2d_sayed05(obsData, trueMap); % Estimate position
+obsData = observe_distance(trueMap, truePose);      % Simulate observation
+estPose = localize2d_sayed05_toa(obsData, trueMap); % Estimate position
 ```
 See [`run_example.m`][] for more complex example with visualization.
 
