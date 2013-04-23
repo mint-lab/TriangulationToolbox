@@ -1,5 +1,5 @@
 function [rad] = error_orientation(p, q)
-%ERROR_ORIENTATION  Calculate angular difference between two orientations.
+%ERROR_ORIENTATION  Calculate angular difference between two sets of Euler angles.
 %
 %   D = ERROR_ORIENTATION(P, Q)
 %       (matrix) P: An Euler angle (1x3 matrix)

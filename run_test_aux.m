@@ -103,10 +103,10 @@ test_is_near(obsData(4,:), [ 0,  5,  0]);
 % observe_bearing
 disp('==== observe_bearing ====');
 [obsData, obsMap] = observe_bearing(map, pose);
-test_is_near(obsData(1,:), [tran_deg2rad( 135), acos(-5 / sqrt(75))]);
-test_is_near(obsData(2,:), [tran_deg2rad(-180), tran_deg2rad(  90)]);
-test_is_near(obsData(3,:), [tran_deg2rad(   0), tran_deg2rad( 180)]);
-test_is_near(obsData(4,:), [tran_deg2rad(  90), tran_deg2rad(  90)]);
+test_is_near(obsData(1,:), [tran_deg2rad( 135), -acos(sqrt(2/3))]);
+test_is_near(obsData(2,:), [tran_deg2rad(-180),       0]);
+test_is_near(obsData(3,:), [tran_deg2rad(   0), -pi / 2]);
+test_is_near(obsData(4,:), [tran_deg2rad(  90),       0]);
 
 % observe_pose
 disp('==== observe_pose ====');

@@ -43,7 +43,7 @@ fprintf('- The orientation error: %.3f [rad] /', errOri);
 fprintf(' %.1f [deg]\n', tran_rad2deg(errOri));
 
 % Visualize results
-figure();
+figure('Color', [1, 1, 1]);
 hold on;
     plot3(trueMap(:,1), trueMap(:,2), trueMap(:,3), 'b.', 'MarkerSize', 20);  % All landmarks
     plot3(obsMap(:,1), obsMap(:,2), obsMap(:,3), 'ro', 'LineWidth', 2);       % The observed landmarks

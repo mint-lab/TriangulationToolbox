@@ -1,6 +1,6 @@
 ## Roh's Angulation Dataset
 
-_Roh's angulation dataset_ is a set of measurements acquired from an IR detector and four IRED landmarks. The sensor system aims at 2D bearing-based localization, which is described in Roh's thesis [1] and paper [2] in detail.
+_Roh's angulation dataset_ is a set of measurements acquired from a rotating IR detector and four IRED landmarks. The sensor system aims at 2D bearing-based localization, which is described in Roh's thesis [1] and paper [2] in detail.
 
 #### Landmark Map
 The map file, _landmark.csv_, contains position of four landmarks.

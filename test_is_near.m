@@ -1,9 +1,9 @@
 function [result] = test_is_near(a, b, tol, verbose)
-%TEST_IS_TRUE  Check whether the given two values are near or not
+%TEST_IS_TRUE  Check whether two given values are near or not
 %
 %   RESULT = TEST_IS_NEAR(A, B, TOL, VERBOSE)
-%       (matrix) A      : The given value
-%       (matrix) B      : The given value
+%       (matrix) A      : The 1st given value
+%       (matrix) B      : The 2nd given value
 %       (scalar) TOL    : Tolerance (default: 1.0e-8)
 %       (scalar) VERBOSE: A flag to print its result (default: true)
 %       (scalar) RESULT : The test result
@@ -15,7 +15,7 @@ function [result] = test_is_near(a, b, tol, verbose)
 %       t = test_is_near(pi, pi + eps)
 %       t = test_is_near([3, 29], [3 + eps, 29 - eps])
 %
-%   See also test_is_near.
+%   See also test_is_true.
 
 if nargin < 3
     tol = 1e-8;
