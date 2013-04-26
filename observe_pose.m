@@ -1,11 +1,11 @@
 function [obsData, obsMap] = observe_pose(map, pose, visibleRate)
-%OBSERVE_POSE  Measure relative pose from the given pose to landmarks.
+%OBSERVE_POSE  Measure pose from the given pose to landmarks.
 %
 %   [OBS_DATA, OBS_MAP] = OBSERVE_POSE(MAP, POSE, VISIBLE_RATE)
 %       (matrix) MAP         : A landmark map (Nx6 matrix)
 %       (matrix) POSE        : Pose of the target object (1x6 matrix)
 %       (scalar) VISIBLE_RATE: Visible probability of landmarks (default: 1)
-%       (matrix) OBS_DATA    : The measured relative pose from POSE to landmarks (Mx6 matrix)
+%       (matrix) OBS_DATA    : The measured pose from POSE to landmarks (Mx6 matrix)
 %       (matrix) OBS_MAP     : The landmark map of measured landmarks (Mx6 matrix)
 %
 %   Note: Pose of an object, POSE, is represented by 1x6 vector whose first three
@@ -21,7 +21,7 @@ function [obsData, obsMap] = observe_pose(map, pose, visibleRate)
 %       If there is no visible landmark, OBS_DATA and OBS_MAP will be an empty matrix.
 %       Please use the command, ISEMPTY, to identify an empty matrix.
 %
-%   Note: The measured relative pose, OBS_DATA, is represented by Mx6 matrix whose
+%   Note: The measured pose, OBS_DATA, is represented by Mx6 matrix whose
 %       format is exactly same with POSE and MAP.
 %
 %   Example:

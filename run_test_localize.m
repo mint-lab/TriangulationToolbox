@@ -21,6 +21,13 @@ disp('==== localize2d_sayed05_toa ====');
 test_is_true(valid == [1, 1, 0, 0, 0, 0]);
 test_is_near(pose(valid == true), truePose(valid == true));
 
+% localize2d_sayed05_tdoa
+disp('==== localize2d_sayed05_tdoa ====');
+[obsData, obsMap] = observe_distance_relative(trueMap, truePose);
+[pose, valid] = localize2d_sayed05_tdoa(obsData, obsMap);
+test_is_true(valid == [1, 1, 0, 0, 0, 0]);
+test_is_near(pose(valid == true), truePose(valid == true));
+
 % localize2d_betke97
 disp('==== localize2d_betke97 ====');
 [obsData, obsMap] = observe_bearing(trueMap, truePose);

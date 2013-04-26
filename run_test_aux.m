@@ -46,7 +46,7 @@ test_is_true(trim_rad(-2 * pi) == 0);
 
 in = (-4 * pi):(pi/100):(+4 * pi);
 out = trim_rad(in);
-figure();
+figure('Color', [1, 1, 1]);
 hold on;
     plot(in, out);
     title('trim\_rad: Correctness on [-4 * pi, +4 * pi]');
@@ -92,6 +92,15 @@ test_is_near(obsData(4), norm([5, 0, 0]));
 test_is_true(isempty(observe_distance([], [0, 0, 0, 0, 0, 0])));                    % In case of no landmark
 test_is_true(isempty(observe_distance([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], 0))); % In case of zero visibility
 
+% observe_distance_relative
+disp('==== observe_distance_relative ====');
+[obsData, obsMap] = observe_distance_relative(map, pose);
+test_is_true(obsMap == map);
+test_is_near(obsData(1), norm([5, 5, 5]));
+test_is_near(obsData(2), norm([5, 0, 0]) - norm([5, 5, 5]));
+test_is_near(obsData(3), norm([5, 0, 0]) - norm([5, 5, 5]));
+test_is_near(obsData(4), norm([5, 0, 0]) - norm([5, 5, 5]));
+
 % observe_displacement
 disp('==== observe_displacement ====');
 [obsData, obsMap] = observe_displacement(map, pose);
@@ -122,7 +131,7 @@ in = zeros(2000,2);
 out1 = apply_noise_gauss(in, 3);
 out2 = apply_noise_gauss(in, [1, 2]);
 out3 = apply_noise_gauss(in, [2, 1; 1, 2]);
-figure();
+figure('Color', [1, 1, 1]);
 hold on;
     plot(out1(:,1), out1(:,2), 'r.');
     plot(out2(:,1), out2(:,2), 'b.');

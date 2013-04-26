@@ -12,7 +12,7 @@ _Triangulation Toolbox_ is an open-source project to share algorithms, datasets,
 Use `help` command to know each function in detail, for example, `help observe_distance`.
  * __2D Localization Algorithms__: `localize2d_*.m`
  * __3D Localization Algorithms__: `localize3d_*.m`
- * __Observation Functions__: [`observe_distance.m`][], [`observe_bearing.m`][], [`observe_displacement.m`][], [`observe_pose.m`][]
+ * __Observation Functions__: [`observe_distance.m`][], [`observe_distance_relative.m`][], [`observe_bearing.m`][], [`observe_displacement.m`][], [`observe_pose.m`][]
  * __Random Noise Generators__: [`apply_noise_gauss.m`][]
  * __Accuracy Criteria__: [`error_position.m`][], [`error_orientation.m`][]
  * __Utility Functions__
@@ -60,6 +60,7 @@ See [`run_example.m`][] for more complex example with visualization.
 [Simplified BSD License]: http://opensource.org/licenses/BSD-2-Clause
 [`localize3d_thomas05.m`]:https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/localize3d_thomas05.m
 [`observe_distance.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/observe_distance.m
+[`observe_distance_relative.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/observe_distance_relative.m
 [`observe_bearing.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/observe_bearing.m
 [`observe_displacement.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/observe_displacement.m
 [`observe_pose.m`]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/observe_pose.m
