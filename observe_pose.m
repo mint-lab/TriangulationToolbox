@@ -32,7 +32,7 @@ function [obsData, obsMap] = observe_pose(map, pose, visibleRate)
 %       pose = [ 3, 2, 9, 0, 0, pi / 2 ];
 %       [obsData, obsMap] = observe_displacement(map, pose)
 %
-%   See also observe_distance, observe_bearing, observe_displacement.
+%   See also observe_distance, observe_distance_relative, observe_bearing, observe_displacement.
 
 if (nargin < 3) || isempty(visibleRate)
     visibleRate = 1;

@@ -28,6 +28,8 @@ function [pose, valid] = localize2d_se05(data, map)
 %       map = [10 * rand(N,2), zeros(N,4)]; % Random 2D landmark map
 %       data = [10 * rand(N,2), zeros(N,1)]; % Random measurement
 %       [pose, valid] = localize2d_se05(data, map)
+%
+%   See also localize2d_sayed05_toa.
 
 if size(data,1) < 2
     error('DATA has less number of observations!');

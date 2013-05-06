@@ -33,7 +33,7 @@ function [pose, valid] = localize3d_thomas05(data, map)
 %       data = 10 * rand(N,1); % Random measurement
 %       [pose, valid] = localize3d_thomas05(data, map)
 %
-%   See also localize2d_sayed05, localize3d_sayed05.
+%   See also localize3d_sayed05_toa.
 
 if size(data,1) < 3
     error('DATA has less number of observations!');
