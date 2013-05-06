@@ -1,4 +1,4 @@
-## MRCLAM Dataset
+## UTIAS MRCLAM Dataset
 UTIAS Multi-Robot Cooperative Localization and Mapping Dataset (a.k.a. MRCLAM dataset) consists of 9 sets of data including odometry, distance and bearing measurements of 15 landmarks from 5 robots. The dataset originally aims cooperative localization and SLAM, but we utilize it for landmark-based localization from instantaneously available observation.
 
 We convert MRCLAM dataset to easily apply to landmark-based localization. The instantaneously available data are extracted as observed measurements during very small motion (0.01 meters and 0.01 radians) and short time (at most 1 second). We reject the observation whose number of measurements is less than 3. Outlier measurements are also removed during conversion. Its conversion for each set is presented in [`run_conv_mrclam.m`](https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/run_conv_mrclam.m). The converted sets of data are written in MATLAB MAT files such as `mrclam1.mat`.
