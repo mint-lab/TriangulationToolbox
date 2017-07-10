@@ -63,6 +63,13 @@ disp('==== localize2d_sayed05_aoa ====');
 test_is_true(valid == [1, 1, 0, 0, 0, 1]);
 test_is_near(pose(valid == true), truePose(valid == true));
 
+% localize2d_pose
+disp('==== localize2d_pose ====');
+[obsData, obsMap] = observe_pose(trueMap, truePose);
+[pose, valid] = localize2d_pose(obsData, obsMap);
+test_is_true(valid == [1, 1, 0, 0, 0, 1]);
+test_is_near(pose(valid == true), truePose(valid == true));
+
 % The given landmark map and true pose for 3D localization %%%%%%%%%%%%%%%%%%%%
 trueMap =                                      ...
 [                                              ...
