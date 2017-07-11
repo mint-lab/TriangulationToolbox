@@ -37,9 +37,9 @@ hold on;
 hold off;
 
 % Draw distribution of position/orientation error (CDF)
-xtext = { 'distance [m]', 'angle [deg]' };
-ytext = { 'P(position error < distance)', 'P(orientation error < angle)' };
-for cr = 1:2
+xtext = { 'distance [m]', 'angle [deg]', 'angle [deg]' };
+ytext = { 'P(position error < distance)', 'P(orientation error < angle)', 'P(reprojection error < angle)' };
+for cr = 1:(size(criteria.name, 2) - 2)
     med = median(median(record.perf{target.ex,target.v}(:,cr,config.algoSelM)));
     if med == 0, med = 1; end
     bins = 0:(histogram.scale*med/histogram.bin):histogram.scale*med;

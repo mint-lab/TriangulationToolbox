@@ -15,7 +15,7 @@ Use `help` command to know each function in detail, for example, `help observe_d
 * __3D Localization Algorithms__: localize3d\_\*.m
 * __Observation Functions__: [observe_distance.m][], [observe_distance_relative.m][], [observe_bearing.m][], [observe_displacement.m][], [observe_pose.m][]
 * __Random Noise Generators__: [apply_noise_gauss.m][]
-* __Accuracy Criteria__: [error_position.m][], [error_orientation.m][]
+* __Accuracy Criteria__: [error_position.m][], [error_orientation.m][], [error_reprojection.m][]
 * __Utility Functions__
   * Unit-test: [test_is_true.m][], [test_is_near.m][]
   * Angular Conversions: [tran_rad2deg.m][], [tran_deg2rad.m][], [tran_rad2rot.m][], [tran_rot2rad.m][], [trim_rad.m][]
@@ -70,6 +70,7 @@ The authors thank to the following contributors and projects.
 [apply_noise_gauss.m]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/apply_noise_gauss.m
 [error_position.m]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/error_position.m
 [error_orientation.m]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/error_orientation.m
+[error_reprojection.m]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/error_reprojection.m
 [test_is_true.m]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/test_is_true.m
 [test_is_near.m]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/test_is_near.m
 [tran_rad2deg.m]: https://github.com/SunglokChoi/Triangulation-Toolbox/blob/master/tran_rad2deg.m
